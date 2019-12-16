@@ -42,8 +42,7 @@
 	</build>
 
 	<scm>
-		<developerConnection>scm:git:git@github.com:hwkeizer/pet-clinic.git</developerConnection>
-	  <tag>cookplanner-0.0.1</tag>
+		<developerConnection>scm:git:git@github.com:hwkeizer/CookPlanner.git</developerConnection>
   </scm>
 	
 </project>
