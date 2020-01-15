@@ -13,16 +13,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class IngredientName {
-	
-	public IngredientName(String name, String pluralName) {
-		this(name, pluralName, false);
-	}
-	
-	public IngredientName(String name, String pluralName, boolean stock) {
-		this.name = name;
-		this.pluralName = pluralName;
-		this.stock = stock;
-	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,5 +24,15 @@ public class IngredientName {
 	@Column(length = 50)
 	private String pluralName;
 	
-	private boolean stock = false;;
+	private boolean stock = false;
+	
+	public IngredientName(String name, String pluralName) {
+		this(name, pluralName, false);
+	}
+	
+	public IngredientName(String name, String pluralName, boolean stock) {
+		this.name = name;
+		this.pluralName = pluralName;
+		this.stock = stock;
+	}
 }

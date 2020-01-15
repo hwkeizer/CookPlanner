@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/header.html :: header">
-<title id="pageTitle">Lijst met ingredient namen</title>
+<title id="pageTitle">Lijst met ingrediënten</title>
 </head>
 
 <body>
@@ -10,26 +10,29 @@
 	<div th:replace="fragments/banner.html :: banner"></div>
 
 	<div id="wrapper">
-
-		<div th:replace="fragments/navigation.html :: sidenav"></div>
+		
+		<div th:replace="fragments/navigation.html :: main-nav"></div>
 
 		<div id="content-wrapper" class="container mt-5">
 
-			<h1>Lijst met ingredient namen</h1>
+			<h1 class="mb-5 pageheader">Ingrediënten</h1>
+			
 			<table id="ingredientNameList"
-				class="table table-striped table-bordered">
+				class="table-warning table-bordered">
 				<thead>
 					<tr>
+						<th>Id</th>
 						<th>Naam</th>
 						<th>Meervoud</th>
 						<th>Voorraad</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="ingredientName : ${ingredientNameList}">
+					<tr th:each="ingredientName : ${ingredientNameList}" >
+						<td th:text="${ingredientName.getId()}"></td>
 						<td th:text="${ingredientName.getName()}"></td>
 						<td th:text="${ingredientName.getPluralName()}"></td>
-						<td th:text="${ingredientName.isStock()}"></td>
+						<td class="text-center"><input class="sized-checkbox" type="checkbox" th:checked="${ingredientName.isStock()}" disabled="disabled"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -39,10 +42,9 @@
 
 	</div>
 	<!-- /#wrapper -->
-
 	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
-	<div th:replace="fragments/footer.html :: datatablesjs"></div>
 	<script th:src="@{/js/ingredientName.js}"></script>
+	<script th:src="@{/js/navigation.js}"></script>
 
 </body>
 </html>
