@@ -33,18 +33,16 @@ public class IngredientNameController {
 
 	@GetMapping("list")
 	public String showIngredientNameList(Model model) {
-		log.debug("We are getting the list!");
 		List<IngredientName> ingredientNameList =ingredientNameRepository.findAll();
 		model.addAttribute("ingredientNameList", ingredientNameList);
 		return "ingredient-name/list";
 	}
 	
 	@GetMapping("{id}/update")
-	public String updateIngredientNameForm(Model model, @PathVariable String id) {
+	public String getIngredientNameForm(Model model, @PathVariable String id) {
 		log.debug("Recieved ingredientName for update: {}", id);
 		Optional<IngredientName> ingredientName = ingredientNameRepository.findById(Long.valueOf(id));
 		if (ingredientName.isPresent()) {
-			log.debug("ingredient: {}", ingredientName.get());
 			model.addAttribute("ingredientName", ingredientName.get());
 		} 
 		return "ingredient-name/update";
@@ -52,11 +50,8 @@ public class IngredientNameController {
 	
 	@PostMapping("update")
 	public String updateIngredientName(@Valid @ModelAttribute("ingredientName") IngredientName ingredientName, BindingResult bindingResult) {
-		log.debug("ingredient to save: {}", ingredientName);
 		if (bindingResult.hasErrors()) {
-			bindingResult.getAllErrors().forEach(objectError -> {
-				log.debug(objectError.toString());
-			});
+			bindingResult.getAllErrors().forEach(objectError -> {log.debug(objectError.toString());});
 		}
 		ingredientNameRepository.save(ingredientName);
 		return "redirect:/ingredient-name/list";

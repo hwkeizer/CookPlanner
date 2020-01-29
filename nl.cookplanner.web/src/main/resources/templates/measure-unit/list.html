@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/header.html :: header">
-<title id="pageTitle">Lijst met ingrediënten</title>
+<title id="pageTitle">Lijst met maateenheden</title>
 </head>
 
 <body>
@@ -15,24 +15,22 @@
 
 		<div id="content-wrapper" class="container mt-5">
 
-			<h1 class="mb-5 pageheader">Ingrediënten</h1>
+			<h1 class="mb-5 pageheader">Maateenheden</h1>
 			
-			<table id="ingredientNameList"
+			<table id="measureUnitList"
 				class="table-warning table-bordered">
 				<thead>
 					<tr>
 						<th>Id</th>
 						<th>Naam</th>
 						<th>Meervoud</th>
-						<th>Voorraad</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="ingredientName : ${ingredientNameList}" >
-						<td th:text="${ingredientName.getId()}"></td>
-						<td th:text="${ingredientName.getName()}"></td>
-						<td th:text="${ingredientName.getPluralName()}"></td>
-						<td class="text-center"><input type="checkbox" th:checked="${ingredientName.isStock()}" disabled="disabled"></td>
+					<tr th:each="measureUnit : ${measureUnitList}" >
+						<td th:text="${measureUnit.getId()}"></td>
+						<td th:text="${measureUnit.getName()}"></td>
+						<td th:text="${measureUnit.getPluralName()}"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -43,7 +41,7 @@
 	</div>
 	<!-- /#wrapper -->
 	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
-	<script th:src="@{/js/ingredientName.js}"></script>
+	<script th:src="@{/js/measureUnit.js}"></script>
 	<script th:src="@{/js/navigation.js}"></script>
 
 </body>

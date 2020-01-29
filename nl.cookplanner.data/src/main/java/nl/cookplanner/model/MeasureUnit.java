@@ -27,4 +27,20 @@ public class MeasureUnit {
 		this.name = name;
 		this.pluralName = pluralName;
 	}
+	
+	public String getDisplayName() {
+		if (name.equals("@")) {
+			return " ";
+		} else {
+			return name;
+		}
+	}
+	
+	public String getPluralDisplayName() {
+		if (name.equals("@")) {
+			return " ";
+		} else {
+			return pluralName;
+		}
+	}
 }

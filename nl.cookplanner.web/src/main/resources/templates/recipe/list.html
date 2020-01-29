@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="fragments/header.html :: header">
-<title id="pageTitle">Lijst met ingrediënten</title>
+<title id="pageTitle">Lijst met recepten</title>
 </head>
 
 <body>
@@ -15,24 +15,25 @@
 
 		<div id="content-wrapper" class="container mt-5">
 
-			<h1 class="mb-5 pageheader">Ingrediënten</h1>
+			<h1 class="mb-5 pageheader">Recepten</h1>
 			
-			<table id="ingredientNameList"
-				class="table-warning table-bordered">
+			<table id="recipeList"	class="table table-bordered table-striped">
 				<thead>
 					<tr>
 						<th>Id</th>
 						<th>Naam</th>
-						<th>Meervoud</th>
-						<th>Voorraad</th>
+						<th>Type</th>
+						<th>Kenmerken</th>
+						<th>Waardering</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr th:each="ingredientName : ${ingredientNameList}" >
-						<td th:text="${ingredientName.getId()}"></td>
-						<td th:text="${ingredientName.getName()}"></td>
-						<td th:text="${ingredientName.getPluralName()}"></td>
-						<td class="text-center"><input type="checkbox" th:checked="${ingredientName.isStock()}" disabled="disabled"></td>
+					<tr th:each="recipe : ${recipeList}" >
+						<td th:text="${recipe.getId()}"></td>
+						<td th:text="${recipe.getName()}"></td>
+						<td th:text="${recipe.recipeType.getDisplayName()}"></td>
+						<td th:text="${recipe.getTagString()}"></td>
+						<td class="text-center" th:text="${recipe.getRating()}"></td>
 					</tr>
 				</tbody>
 			</table>
@@ -42,8 +43,9 @@
 
 	</div>
 	<!-- /#wrapper -->
+	
 	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
-	<script th:src="@{/js/ingredientName.js}"></script>
+	<script th:src="@{/js/recipe.js}"></script>
 	<script th:src="@{/js/navigation.js}"></script>
 
 </body>

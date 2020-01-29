@@ -33,7 +33,6 @@ public class Ingredient {
 	private IngredientName name;
 	
 	private Float amount;
-//	private boolean stock;
 	
 	@OneToOne(fetch = FetchType.EAGER)
 	private MeasureUnit measureUnit;

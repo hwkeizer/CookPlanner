@@ -7,5 +7,16 @@ package nl.cookplanner.model;
  * Entries can contain max 20 characters
  */
 public enum RecipeType {
-	AMUSE, VOORGERECHT, HOOFDGERECHT, NAGERECHT, BIJGERECHT, TUSSENGERECHT
+	AMUSE("Amuse"), 
+	VOORGERECHT("Voorgerecht"), 
+	HOOFDGERECHT("Hoofdgerecht"), 
+	NAGERECHT("Nagerecht"), 
+	BIJGERECHT("Bijgerecht"), 
+	TUSSENGERECHT("Tussengerecht");
+	
+	private String displayName;
+	
+	private RecipeType(String displayName) {this.displayName = displayName;}
+	
+	public String getDisplayName() {return displayName;}
 }

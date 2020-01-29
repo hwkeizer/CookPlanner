@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header.html :: header">
+<title id="pageTitle">Recept wijzigen</title>
+</head>
+
+<body>
+
+	<div th:replace="fragments/banner.html :: banner"></div>
+
+	<div id="wrapper">
+
+		<div th:replace="fragments/navigation.html :: main-nav"></div>
+
+		<div id="content-wrapper" class="container mt-3 col-7">
+
+			<form th:object="${recipe}" th:action="@{'/recipe/update'} "
+				method="post">
+
+				<input type="hidden" th:field="*{id}" />
+
+				<div class="row justify-content-center mb-3">
+					<h1 class="my-5 pageheader panel-title">Wijzig recept</h1>
+				</div>
+
+				<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+					<p>Het formulier bevat fouten</p>
+				</div>
+
+				<div class="form-group form-row">
+					<label class="col-3 col-form-label">Naam</label>
+					<div class="col-8">
+						<input type="text" class="form-control" th:field="*{name}"
+							th:errorclass="has-error" />
+						<div class="help-block text-danger"
+							th:if="${#fields.hasErrors('name')}">
+							<p th:each="err : ${#fields.errors('name')}" th:text="${err}" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="preparation_time" class="col-3 col-form-label">Voorbereidingstijd</label>
+					<div class="col-3">
+						<input id="preparation_time" type="text" class="form-control"
+							th:field="*{preparationTime}" th:errorclass="has-error" />
+						<div class="help-block text-danger"
+							th:if="${#fields.hasErrors('preparationTime')}">
+							<p th:each="err : ${#fields.errors('preparationTime')}"
+								th:text="${err}" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="cook_time" class="col-3 col-form-label">Bereidingstijd</label>
+					<div class="col-3">
+						<input id="cook_time" type="text" class="form-control"
+							th:field="*{cookTime}" th:errorclass="has-error" />
+						<div class="help-block text-danger"
+							th:if="${#fields.hasErrors('cookTime')}">
+							<p th:each="err : ${#fields.errors('cookTime')}" th:text="${err}" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="recipe_type" class="col-3 col-form-label">Type
+						recept</label>
+					<div class="col-3">
+						<select id="recipe_type" class="form-control"
+							th:field="*{recipeType}">
+							<option
+								th:each="recipeTypeValue : ${T(nl.cookplanner.model.RecipeType).values()}"
+								th:value="${recipeTypeValue}"
+								th:text="${recipeTypeValue.getDisplayName()}"></option>
+						</select>
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="servings" class="col-3 col-form-label">Aantal
+						personen</label>
+					<div class="col-3">
+						<input id="servings" type="text" class="form-control"
+							th:field="*{servings}" th:errorclass="has-error" />
+						<div class="help-block text-danger"
+							th:if="${#fields.hasErrors('servings')}">
+							<p th:each="err : ${#fields.errors('servings')}" th:text="${err}" />
+						</div>
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label for="recipe_description" class="col-3 col-form-label">Kenmerken</label>
+					<div class="col-9">
+						<div th:each="tag : ${allTags}">
+							<div class="col-md-3 float-left">
+								<input type="checkbox" th:field="*{tags}" th:value="${tag.id}">
+								<label th:text="${tag.name}"></label>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div th:if="${recipe.id != null}">
+					<div class="d-flex flex-column row-hl mt-5">
+						<h4>Ingredi&euml;nten</h4>
+
+						<a class="btn btn-success"
+							th:href="@{'/ingredient/create/' + ${recipe.id}}" role="button">Ingredi&euml;nt
+							toevoegen</a>
+
+						<div class="ingredients"
+							th:if="${not #lists.isEmpty(recipe.ingredients)}">
+							<table id="ingredientlist" class="table table-sm item-hl m3">
+								<tbody>
+									<tr th:each="ingredient : ${recipe.ingredients}">
+										<td th:text="${#strings.replace(ingredient.amount,'.0','')}"></td>
+										<td
+											th:text="(${ingredient.amount >= 2} ? ${ingredient.measureUnit.pluralName}
+												 : ${ingredient.measureUnit.name})"></td>
+										<td th:text="${ingredient.getName().getName()}"></td>
+										<td
+											th:text="${ingredient.getName().isStock() ? 'voorraad' : ''}"></td>
+										<td><a
+											th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ingredient.id} + '/update'}">
+												<img th:src="@{/images/edit-icon.png}" />
+										</a></td>
+										<td><a
+											th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ingredient.id} + '/delete'}">
+												<img th:src="@{/images/delete-icon.png}" />
+										</a></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+				<div class="d-flex flex-column row-hl mt-4">
+						<label><h4>Voorbereiding</h4></label>
+						<textarea class="form-control" rows="5" th:field="*{preparations}"></textarea>
+					</div>
+
+					<div class="d-flex flex-column row-hl mt-4">
+						<label><h4>Bereidingswijze</h4></label>
+						<textarea class="form-control" rows="15" th:field="*{directions}"></textarea>
+					</div>
+
+					<div class="d-flex flex-column row-hl mt-4">
+						<label><h4>Aantekeningen</h4></label>
+						<textarea class="form-control" rows="5" th:field="*{notes}"></textarea>
+					</div>
+
+					<button type="submit" class="btn btn-success my-3">Opslaan</button>
+					<a class="btn btn-danger bg-danger m-2"
+						th:href="@{'/recipe/' + ${recipe.id} + '/show'}" role="button">Cancel</a>
+			</form>
+
+		</div>
+		<!-- /#content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
+	<script th:src="@{/js/navigation.js}"></script>
+
+</body>
+</html>

@@ -16,6 +16,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -30,6 +32,8 @@ public class Recipe {
 	private Long id;
 	
 	@Column(unique=true, length = 60)
+	@NotBlank(message="Naam mag niet leeg zijn")
+	@Size(max = 60, message="Naam mag niet langer zijn dan 60 karakters")
 	private String name;
 	
 	@Lob
@@ -81,6 +85,21 @@ public class Recipe {
 	
 	public void removeIngredient(Ingredient ingredient) {
 		ingredients.remove(ingredient);
-		
+	}
+	
+	public String getTagString() {
+		String tagString = "";
+		for (Tag tag : tags) {
+			if (tagString.isEmpty()) {
+				tagString = tagString.concat(tag.getName() + ", ");
+			} else {
+				tagString = tagString.concat(tag.getName().toLowerCase() + ", ");
+			}
+		}
+		if (tagString.length() != 0) {
+			return tagString.substring(0, tagString.length() - 2);
+		} else {
+			return "";
+		}
 	}
 }

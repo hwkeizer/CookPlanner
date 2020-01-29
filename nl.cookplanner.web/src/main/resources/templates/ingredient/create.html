@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header.html :: header">
+<title id="pageTitle">Ingrediënt toevoegen</title>
+</head>
+
+<body>
+
+	<div th:replace="fragments/banner.html :: banner"></div>
+
+	<div id="wrapper">
+
+		<div th:replace="fragments/navigation.html :: main-nav"></div>
+
+		<div id="content-wrapper" class="container mt-3 col-4">
+			
+			<form th:object="${ingredient}"
+					th:action="@{'/ingredient/create'} "
+					method="post">
+					
+				<input type="hidden" th:field="*{id}" />
+					
+				<div class="row justify-content-center mb-3">
+					<h1 class="my-5 pageheader panel-title">Ingrediënt toevoegen</h1>
+				</div>
+
+				<div class="form-group form-row">
+					<label class="col-3 col-form-label">Hoeveelheid</label>
+					<div class="col-9">
+						<input type="number" step="0.1" class="form-control"
+							th:field="*{amount}" />
+					</div>
+				</div>
+
+				<div class="form-group form-row">
+					<label class="col-3 col-form-label">Naam</label>
+					<div class="col-9">
+						<input type="text" class="form-control" th:field="*{name}"/>
+					</div>
+				</div>
+						
+
+				<div class="form-group form-row">
+					<label class="col-3 col-form-label">Maateenheid (enkelvoud)</label>
+					<div class="col-9">
+						<select class="form-control" name="measureUnit.id">
+							<option th:each="muEach : ${measureUnitList}"
+									th:value="${muEach.id}"
+									th:selected="${muEach.id.equals(ingredient.measureUnit.id)}"
+									th:text="${muEach.name}">Maateenheid</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="row justify-content-center mb-3">
+					<a class="btn btn-warning mx-3" th:href="@{/measure-unit/list}">Annuleren</a>
+					<button type="submit" class="mx-3 btn btn-success">Opslaan</button>
+					
+				</div>
+
+			</form>
+
+		</div>
+		<!-- /#content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
+	<script th:src="@{/js/navigation.js}"></script>
+
+</body>
+</html>

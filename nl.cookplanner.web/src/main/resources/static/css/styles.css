@@ -56,7 +56,7 @@ body {
     padding-left:58px;
 }
 .main_navbar ul li {
-    padding:10px;
+    padding:15px;
 }
 .main_navbar ul li a {
     color:#fff;
@@ -104,3 +104,5 @@ body {
 .sized-checkbox {
 	zoom:2;
 }
+
+
