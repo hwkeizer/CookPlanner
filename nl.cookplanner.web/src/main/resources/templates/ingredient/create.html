@@ -16,14 +16,16 @@
 		<div id="content-wrapper" class="container mt-3 col-4">
 			
 			<form th:object="${ingredient}"
-					th:action="@{'/ingredient/create'} "
+					th:action="@{/ingredient/create/} + ${recipeId}"
 					method="post">
 					
-				<input type="hidden" th:field="*{id}" />
+				
 					
 				<div class="row justify-content-center mb-3">
 					<h1 class="my-5 pageheader panel-title">Ingrediënt toevoegen</h1>
 				</div>
+				
+				<h1 th:text="${recipeId}"></h1>
 
 				<div class="form-group form-row">
 					<label class="col-3 col-form-label">Hoeveelheid</label>
@@ -32,23 +34,29 @@
 							th:field="*{amount}" />
 					</div>
 				</div>
-
-				<div class="form-group form-row">
-					<label class="col-3 col-form-label">Naam</label>
-					<div class="col-9">
-						<input type="text" class="form-control" th:field="*{name}"/>
-					</div>
-				</div>
-						
-
+				
 				<div class="form-group form-row">
 					<label class="col-3 col-form-label">Maateenheid (enkelvoud)</label>
 					<div class="col-9">
-						<select class="form-control" name="measureUnit.id">
+						<select class="form-control combobox" name="measureUnit.id">
+							<option></option>
 							<option th:each="muEach : ${measureUnitList}"
-									th:value="${muEach.id}"
-									th:selected="${muEach.id.equals(ingredient.measureUnit.id)}"
-									th:text="${muEach.name}">Maateenheid</option>
+								th:value="${muEach.id}"
+								th:selected="${muEach.id.equals(ingredient.measureUnit.id)}"
+								th:text="${muEach.name}">Maateenheid</option>
+						</select>
+					</div>
+				</div>
+				
+				<div class="form-group form-row">
+					<label class="col-3 col-form-label">Naam</label>
+					<div class="col-9">
+						<select class="form-control combobox" name="ingredientName.id">
+							<option></option>
+							<option th:each="ingredientNameEach : ${ingredientNameList}"
+								th:value="${ingredientNameEach.id}"
+								th:selected="${ingredientNameEach.id.equals(ingredient.name.id)}"
+								th:text="${ingredientNameEach.name}">Naam</option>
 						</select>
 					</div>
 				</div>
@@ -69,6 +77,12 @@
 
 	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
 	<script th:src="@{/js/navigation.js}"></script>
+	<script th:src="@{/js/bootstrap-combobox.js}"></script>
+	<script type="text/javascript">
+					$(document).ready(function() {
+						$('.combobox').combobox();
+					});
+				</script>
 
 </body>
 </html>
