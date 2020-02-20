@@ -22,7 +22,6 @@ import nl.cookplanner.repositories.TagRepository;
 import nl.cookplanner.services.IngredientService;
 
 @Controller
-@RequestMapping("recipe")
 @Slf4j
 public class RecipeController {
 
@@ -43,14 +42,14 @@ public class RecipeController {
 		return allTags;
 	}
 
-	@GetMapping("list")
+	@GetMapping({"recipe/list", "home", "/"})
 	public String showRecipeList(Model model) {
 		List<Recipe> recipeList = recipeRepository.findAll();
 		model.addAttribute("recipeList", recipeList);
 		return "recipe/list";
 	}
 	
-	@GetMapping("{id}/show")
+	@GetMapping("recipe/{id}/show")
 	public String showRecipeById(@PathVariable String id, Model model) {
 		Optional<Recipe> optionalRecipe = recipeRepository.findById(Long.valueOf(id));
 		if (optionalRecipe.isPresent()) {
@@ -59,7 +58,7 @@ public class RecipeController {
 		return "recipe/show-details";
 	}
 	
-	@GetMapping("{id}/update") 
+	@GetMapping("recipe/{id}/update") 
 	public String showUpdateFormById(@PathVariable String id, Model model) {
 		Optional<Recipe> optionalRecipe = recipeRepository.findById(Long.valueOf(id));
 		if (optionalRecipe.isPresent()) {
@@ -68,7 +67,7 @@ public class RecipeController {
 		return "recipe/update";
 	}
 	
-	@PostMapping("update")
+	@PostMapping("recipe/update")
 	public String updateRecipe(@Valid @ModelAttribute("recipe") Recipe recipe, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			bindingResult.getAllErrors().forEach(objectError -> {
