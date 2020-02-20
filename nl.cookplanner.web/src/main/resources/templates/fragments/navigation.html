@@ -7,7 +7,8 @@
 <body>
 
 	<nav class="main_navbar" th:fragment="main-nav">
-	<h4 class="title ml-2 mt-4"><strong> CookPlanner 1.0</strong></h4>
+	<h4 class="title ml-2 mt-4 text-center"><strong> CookPlanner</strong></h4>
+	<p class="title ml-2 text-center" th:text="'version ' + ${appVersion}"><strong></strong></p>
 		<ul>
 			<li><i class="fa fa-home"></i><a th:href="@{/home}">Recepten</a></li>
 			<li><i class="fa fa-calendar"></i><a href="#calendar">Planning</a></li>

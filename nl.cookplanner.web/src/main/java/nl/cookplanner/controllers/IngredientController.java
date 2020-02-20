@@ -23,7 +23,7 @@ import nl.cookplanner.services.RecipeService;
 @Controller
 @RequestMapping("ingredient")
 @Slf4j
-public class IngredientController {
+public class IngredientController extends AbstractController {
 
 	private final RecipeService recipeService;
 	private final IngredientService ingredientService;

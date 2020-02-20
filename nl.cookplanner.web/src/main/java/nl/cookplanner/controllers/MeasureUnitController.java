@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,8 +22,8 @@ import nl.cookplanner.repositories.MeasureUnitRepository;
 @Controller
 @RequestMapping("measure-unit")
 @Slf4j
-public class MeasureUnitController {
-
+public class MeasureUnitController extends AbstractController {
+	
 	private final MeasureUnitRepository measureUnitRepository;
 
 	public MeasureUnitController(MeasureUnitRepository measureUnitRepository) {

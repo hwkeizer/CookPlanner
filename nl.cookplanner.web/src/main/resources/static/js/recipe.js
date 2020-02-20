@@ -6,8 +6,15 @@ $(document).ready( function () {
 
 function showRecipeTable() {
 	var table = $('#recipeList').DataTable({
+		"aoColumns": [
+		    { "bSearchable": false },
+		      null,
+		      null,
+		      null,
+		      null
+		],
 		"columnDefs": [
-			{ "width": "10%", "targets": 4 }
+			{ "width": "8%", "targets": 4 }
 		],
 		"language": {
 			"lengthMenu": "Toon _MENU_ recepten per pagina",

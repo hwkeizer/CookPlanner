@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,7 +14,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.cookplanner.model.Recipe;
@@ -23,7 +24,7 @@ import nl.cookplanner.services.IngredientService;
 
 @Controller
 @Slf4j
-public class RecipeController {
+public class RecipeController extends AbstractController {
 
 	private final RecipeRepository recipeRepository;
 	private final TagRepository tagRepository;
@@ -45,6 +46,7 @@ public class RecipeController {
 	@GetMapping({"recipe/list", "home", "/"})
 	public String showRecipeList(Model model) {
 		List<Recipe> recipeList = recipeRepository.findAll();
+		log.debug("VERSION: {}", getAppVersion());
 		model.addAttribute("recipeList", recipeList);
 		return "recipe/list";
 	}

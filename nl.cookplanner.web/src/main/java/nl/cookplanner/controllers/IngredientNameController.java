@@ -23,7 +23,7 @@ import nl.cookplanner.repositories.IngredientNameRepository;
 @Controller
 @RequestMapping("ingredient-name")
 @Slf4j
-public class IngredientNameController {
+public class IngredientNameController extends AbstractController {
 	
 	private final IngredientNameRepository ingredientNameRepository;
 	
