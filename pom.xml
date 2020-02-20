@@ -4,7 +4,7 @@
 
 	<groupId>nl</groupId>
 	<artifactId>cookplanner</artifactId>
-	<version>0.0.6</version>
+	<version>0.0.7-SNAPSHOT</version>
 
 	<modules>
 		<module>nl.cookplanner.data</module>
@@ -49,7 +49,7 @@
 
 	<scm>
 		<developerConnection>scm:git:git@github.com:hwkeizer/CookPlanner.git</developerConnection>
-	  <tag>cookplanner-0.0.6</tag>
+	  <tag>HEAD</tag>
   </scm>
 
 </project>
