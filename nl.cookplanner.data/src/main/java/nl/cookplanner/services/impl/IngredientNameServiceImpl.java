@@ -1,6 +1,7 @@
 package nl.cookplanner.services.impl;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -24,6 +25,17 @@ public class IngredientNameServiceImpl implements IngredientNameService{
 		Set<IngredientName> ingredientNameSet = new HashSet<>();
 		ingredientNameRepository.findAll().iterator().forEachRemaining(ingredientNameSet::add);
 		return ingredientNameSet;
+	}
+
+	@Override
+	public IngredientName findIngredientNameById(Long id) {
+		Optional<IngredientName> optionalIngredientName = ingredientNameRepository.findById(id);
+		if (optionalIngredientName.isPresent()) {
+			return optionalIngredientName.get();
+		} else {
+			// TODO implement errorhandling
+		}
+		return null;
 	}
 	
 }

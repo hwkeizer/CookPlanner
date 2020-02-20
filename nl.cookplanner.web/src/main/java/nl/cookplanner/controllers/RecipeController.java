@@ -1,9 +1,7 @@
 package nl.cookplanner.controllers;
 
-import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -21,6 +19,7 @@ import nl.cookplanner.model.Recipe;
 import nl.cookplanner.model.Tag;
 import nl.cookplanner.repositories.RecipeRepository;
 import nl.cookplanner.repositories.TagRepository;
+import nl.cookplanner.services.IngredientService;
 
 @Controller
 @RequestMapping("recipe")
@@ -29,10 +28,13 @@ public class RecipeController {
 
 	private final RecipeRepository recipeRepository;
 	private final TagRepository tagRepository;
+	private final IngredientService ingredientService;
 	
-	public RecipeController(RecipeRepository recipeRepository, TagRepository tagRepository) {
+	public RecipeController(RecipeRepository recipeRepository, TagRepository tagRepository,
+			IngredientService ingredientService) {
 		this.recipeRepository = recipeRepository;
 		this.tagRepository = tagRepository;
+		this.ingredientService = ingredientService;
 	}
 	
 	@ModelAttribute("allTags")
@@ -74,8 +76,11 @@ public class RecipeController {
 			});
 			return "recipe/update";
 		}
+		// Ingredients are updated separately and are fetched here
+		// TODO find better solution for this
+		recipe.setIngredients(ingredientService.findAllIngredientsForRecipe(recipe.getId()));
 		log.debug("Recipe to update: {}", recipe);
-		Recipe updatedRecipe = recipeRepository.save(recipe);
-		return "redirect:/recipe/" + updatedRecipe.getId() + "/show";
+		recipeRepository.save(recipe);
+		return "redirect:/recipe/" + recipe.getId() + "/show";
 	}
 }

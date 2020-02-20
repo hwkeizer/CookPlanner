@@ -7,4 +7,6 @@ import nl.cookplanner.model.IngredientName;
 public interface IngredientNameService {
 
 	Set<IngredientName> findAllIngredientNames();
+	
+	public IngredientName findIngredientNameById(Long id);
 }

@@ -46,6 +46,11 @@ public class RecipeServiceImpl implements RecipeService {
 		
 		log.debug("delete recipe not implemented yet");
 	}
+
+	@Override
+	public Recipe updateRecipe(Recipe recipe) {
+		return recipeRepository.save(recipe);
+	}
 	
 	
 }

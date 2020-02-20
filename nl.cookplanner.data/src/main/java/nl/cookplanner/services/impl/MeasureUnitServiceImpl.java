@@ -1,6 +1,7 @@
 package nl.cookplanner.services.impl;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.stereotype.Service;
@@ -11,7 +12,6 @@ import nl.cookplanner.repositories.MeasureUnitRepository;
 import nl.cookplanner.services.MeasureUnitService;
 
 @Service
-@Slf4j
 public class MeasureUnitServiceImpl implements MeasureUnitService {
 
 	private final MeasureUnitRepository measureUnitRepository;
@@ -26,6 +26,17 @@ public class MeasureUnitServiceImpl implements MeasureUnitService {
 		Set<MeasureUnit> measureUnitSet = new HashSet<>();
 		measureUnitRepository.findAll().iterator().forEachRemaining(measureUnitSet::add);
 		return measureUnitSet;
+	}
+
+	@Override
+	public MeasureUnit findMeasureUnitById(Long id) {
+		Optional<MeasureUnit> optionalMeasureUnit = measureUnitRepository.findById(id);
+		if (optionalMeasureUnit.isPresent()) {
+			return optionalMeasureUnit.get();
+		} else {
+			// TODO implement errorhandling
+		}
+		return null;
 	}
 
 }
