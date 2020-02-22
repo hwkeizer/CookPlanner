@@ -10,7 +10,6 @@ public class AbstractController {
 	
 	@ModelAttribute("appVersion")
 	public String getAppVersion() {
-		int endIndex = appVersion.indexOf("-");
-		return appVersion.substring(0, endIndex);
+		return appVersion;
 	}
 }
