@@ -11,7 +11,7 @@
 	<p class="title ml-2 text-center" th:text="'version ' + ${appVersion}"><strong></strong></p>
 		<ul>
 			<li><i class="fa fa-home"></i><a th:href="@{/home}">Recepten</a></li>
-			<li><i class="fa fa-calendar"></i><a href="#calendar">Planning</a></li>
+			<li><i class="fa fa-calendar"></i><a th:href="@{'/planning/overview'}">Planning</a></li>
 			<li><i class="fa fa-shopping-cart"></i><a href="#shopping-cart">Boodschappen</a></li>
 			<li><i class="fa fa-cogs"></i><a href="#cogs">Instellingen</a></li>
 			<li><i class="fa fa-pagelines"></i><a th:href="@{/ingredient-name/list}">Ingrediënten</a></li>

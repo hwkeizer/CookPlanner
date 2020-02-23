@@ -1,12 +1,11 @@
 package nl.cookplanner.controllers;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -46,7 +45,6 @@ public class RecipeController extends AbstractController {
 	@GetMapping({"recipe/list", "home", "/"})
 	public String showRecipeList(Model model) {
 		List<Recipe> recipeList = recipeRepository.findAll();
-		log.debug("VERSION: {}", getAppVersion());
 		model.addAttribute("recipeList", recipeList);
 		return "recipe/list";
 	}
@@ -80,7 +78,6 @@ public class RecipeController extends AbstractController {
 		// Ingredients are updated separately and are fetched here
 		// TODO find better solution for this
 		recipe.setIngredients(ingredientService.findAllIngredientsForRecipe(recipe.getId()));
-		log.debug("Recipe to update: {}", recipe);
 		recipeRepository.save(recipe);
 		return "redirect:/recipe/" + recipe.getId() + "/show";
 	}

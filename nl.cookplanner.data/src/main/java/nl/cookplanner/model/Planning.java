@@ -38,6 +38,14 @@ public class Planning implements Comparable<Planning> {
 	private Integer servings;	
 	private boolean onShoppingList = true;
 	
+	public Planning(LocalDate date, Recipe recipe, boolean onShoppingList) {
+		this.date = date;
+		this.recipe = recipe;
+		this.name = recipe.getName();
+		this.servings = recipe.getServings();
+		this.onShoppingList = onShoppingList;
+	}
+	
 	public Planning(LocalDate date) {
 		this.date = date;
 	}

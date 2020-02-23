@@ -25,6 +25,7 @@
 						<th>Type</th>
 						<th>Kenmerken</th>
 						<th>Waardering</th>
+						<th>Plan</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -34,6 +35,12 @@
 						<td th:text="${recipe.recipeType.getDisplayName()}"></td>
 						<td th:text="${recipe.getTagString()}"></td>
 						<td class="text-center" th:text="${recipe.getRating()}"></td>
+						<td>
+						<form th:action="@{'/planning/' + ${recipe.id} + '/new'}" method="post">
+    						<input class="btn btn-success bg-success" role="button" type="submit" 
+    								name="plan" value="Plan" />
+						</form>
+					</td>
 					</tr>
 				</tbody>
 			</table>

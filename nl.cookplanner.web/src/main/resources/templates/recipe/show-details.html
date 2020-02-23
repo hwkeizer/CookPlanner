@@ -70,13 +70,21 @@
 				<table id=ingredients class="table table-sm item-hl">
 					<tbody>
 						<tr th:each="ingredient : ${recipe.getIngredients()}">
-							<td th:text="${#strings.replace(ingredient.getAmount(),'.0','')}"></td>
+							<td 
+								th:text="${#strings.replace(ingredient.getAmount(),'.0','')}">
+							</td>
 							<td
 								th:text="(${ingredient.getAmount() >= 2} ? ${ingredient.getMeasureUnit().getPluralDisplayName()}
-										 : ${ingredient.getMeasureUnit().getDisplayName()})"></td>
+										 : ${ingredient.getMeasureUnit().getDisplayName()})">
+							</td>
 							<td
 								th:text="(${ingredient.getAmount() >= 2} ? ${ingredient.getName().getPluralName()}
-										 : ${ingredient.getName().getName()})"></td>
+										 : ${ingredient.getName().getName()})">
+							</td>
+							<td class="text-center"><input type="checkbox"
+							th:checked="${ingredient.getName().isStock()}"
+							disabled="disabled">
+						</td>
 						</tr>
 					</tbody>
 				</table>

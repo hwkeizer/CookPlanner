@@ -11,7 +11,8 @@ function showRecipeTable() {
 		      null,
 		      null,
 		      null,
-		      null
+		      null,
+		      { "bSearchable": false }
 		],
 		"columnDefs": [
 			{ "width": "8%", "targets": 4 }

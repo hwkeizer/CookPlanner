@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header.html :: header">
+<title id="pageTitle">Planning</title>
+</head>
+
+<body>
+
+	<div th:replace="fragments/banner.html :: banner"></div>
+
+	<div id="wrapper">
+
+		<div th:replace="fragments/navigation.html :: main-nav"></div>
+
+		<div id="content-wrapper" class="container mt-5">
+
+			<div class="row justify-content-center mb-3">
+				<a class="btn btn-success bg-success m-2" th:href="@{/home}"
+					role="button">Naar receptoverzicht</a>
+				<form th:action="@{'/planning/new'}" method="post">
+					<input class="btn btn-success bg-success m-2" role="button"
+						type="submit" name="plan" value="Lege planning toevoegen" />
+				</form>
+				<a class="btn btn-success bg-success m-2"
+					th:href="@{/planning/shopping}" role="button">Boodschappenlijst
+					genereren</a>
+			</div>
+
+			<table id="planninglist" class="display">
+				<thead>
+					<tr>
+						<th>datum</th>
+						<th>weekdag</th>
+						<th>recept</th>
+						<th>ID</th>
+						<th>aantal personen</th>
+						<th>op boodschappenlijst</th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="planning : ${plannings}">
+						<td th:text="${#temporals.format(planning.date,'YYYY-MM-dd')}">Datum</td>
+						<td th:text="${#temporals.dayOfWeekName(planning.date)}"></td>
+						<td>
+							<div th:text="${planning.name}">Recept naam</div>
+						</td>
+						<td th:text="${planning.id}">Planning ID</td>
+						<td><div th:if="${planning.recipe != null}"
+								th:text="${planning.servings}"></div></td>
+						<td>
+							<div class="mx-5" th:if="${planning.recipe != null}">
+								<div th:if="${planning.onShoppingList}">
+									<a th:href="@{'/planning/' + ${planning.id} + '/shopping_off'}">
+										<img th:src="@{/images/select-icon.png}" />
+									</a>
+								</div>
+								<div th:if="${!planning.onShoppingList}">
+									<a th:href="@{'/planning/' + ${planning.id} + '/shopping_on'}">
+										<img th:src="@{/images/deselect-icon.png}" />
+									</a>
+								</div>
+							</div>
+						</td>
+						<td><a th:href="@{'/planning/' + ${planning.id} + '/delete'}">
+								<img th:src="@{/images/delete-icon.png}" />
+						</a></td>
+				</tbody>
+			</table>
+		</div>
+
+	</div>
+	<!-- /#content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
+	<script th:src="@{/js/navigation.js}"></script>
+	<script th:src="@{/js/planning.js}"></script>
+
+</body>
+</html>

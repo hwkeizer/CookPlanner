@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header.html :: header">
+<title id="pageTitle">Lijst met recepten</title>
+</head>
+
+<body>
+
+	<div th:replace="fragments/banner.html :: banner"></div>
+
+	<div id="wrapper">
+
+		<div th:replace="fragments/navigation.html :: main-nav"></div>
+
+		<div id="content-wrapper" class="container mt-5">
+
+			<div class="row justify-content-center mb-3">
+
+				<h3>Boodschappenlijst</h3>
+
+				<table class="table table-md item-hl">
+					<tbody>
+						<tr th:each="shopping : ${shoppingList}">
+							<td th:text="${#strings.replace(shopping.amount,'.0','')}"></td>
+							<td
+								th:text="(${shopping.amount >= 2} ? ${shopping.measureUnit.pluralName}
+									 : ${shopping.measureUnit.name})"></td>
+							<td th:text="${shopping.getName().getName()}"></td>
+						</tr>
+					</tbody>
+				</table>
+
+				<h3 class="mt-3">Voorraad check</h3>
+				<table class="table table-md item-hl">
+					<tbody>
+						<tr th:each="shopping : ${stockList}">
+							<td th:text="${#strings.replace(shopping.amount,'.0','')}"></td>
+							<td
+								th:text="(${shopping.amount >= 2} ? ${shopping.measureUnit.pluralName}
+									 : ${shopping.measureUnit.name})"></td>
+							<td th:text="${shopping.getName().getName()}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+
+		</div>
+
+	</div>
+	<!-- /#content-wrapper -->
+
+	</div>
+	<!-- /#wrapper -->
+
+	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
+	<script th:src="@{/js/navigation.js}"></script>
+
+</body>
+</html>

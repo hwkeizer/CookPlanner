@@ -40,7 +40,6 @@ public class IngredientNameController extends AbstractController {
 	
 	@GetMapping("{id}/update")
 	public String getIngredientNameForm(Model model, @PathVariable String id) {
-		log.debug("Recieved ingredientName for update: {}", id);
 		Optional<IngredientName> ingredientName = ingredientNameRepository.findById(Long.valueOf(id));
 		if (ingredientName.isPresent()) {
 			model.addAttribute("ingredientName", ingredientName.get());

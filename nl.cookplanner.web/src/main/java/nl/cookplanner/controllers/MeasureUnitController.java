@@ -39,7 +39,6 @@ public class MeasureUnitController extends AbstractController {
 	
 	@GetMapping("{id}/update")
 	public String getMeasureUnitForm(Model model, @PathVariable String id) {
-		log.debug("Recieved ingredientName for update: {}", id);
 		Optional<MeasureUnit> measureUnit = measureUnitRepository.findById(Long.valueOf(id));
 		if (measureUnit.isPresent()) {
 			model.addAttribute("measureUnit", measureUnit.get());
