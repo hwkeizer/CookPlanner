@@ -30,7 +30,7 @@ public class PlanningController extends AbstractController {
 	@GetMapping("planning/overview")
 	public String showPlanningOverview(Model model) {
 		model.addAttribute("plannings", planBoardService.getPlannings());
-		return "/planning/overview";
+		return "planning/overview";
 	}
 	
 	// TODO: Should this be a postmapping?
