@@ -91,6 +91,18 @@
 						</div>
 					</div>
 				</div>
+				
+				<div class="form-group form-row">
+					<label for="servings" class="col-3 col-form-label">Waardering</label>
+					<div class="col-3">
+						<input id="rating" type="text" class="form-control"
+							th:field="*{rating}" th:errorclass="has-error" />
+						<div class="help-block text-danger"
+							th:if="${#fields.hasErrors('rating')}">
+							<p th:each="err : ${#fields.errors('rating')}" th:text="${err}" />
+						</div>
+					</div>
+				</div>
 
 				<div class="form-group form-row">
 					<label for="recipe_description" class="col-3 col-form-label">Kenmerken</label>

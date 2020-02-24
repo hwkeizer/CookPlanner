@@ -13,4 +13,6 @@ public interface RecipeService {
 	public void deleteRecipeById(Long id);
 	
 	public Recipe updateRecipe(Recipe recipe);
+	
+	public Recipe createRecipe(Recipe recipe);
 }

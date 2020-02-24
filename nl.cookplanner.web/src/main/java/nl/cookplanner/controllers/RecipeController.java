@@ -20,22 +20,25 @@ import nl.cookplanner.model.Tag;
 import nl.cookplanner.repositories.RecipeRepository;
 import nl.cookplanner.repositories.TagRepository;
 import nl.cookplanner.services.IngredientService;
+import nl.cookplanner.services.RecipeService;
 
 @Controller
 @Slf4j
 public class RecipeController extends AbstractController {
 
 	private final RecipeRepository recipeRepository;
+	private final RecipeService recipeService;
 	private final TagRepository tagRepository;
 	private final IngredientService ingredientService;
 	
-	public RecipeController(RecipeRepository recipeRepository, TagRepository tagRepository,
+	public RecipeController(RecipeRepository recipeRepository, RecipeService recipeService, TagRepository tagRepository,
 			IngredientService ingredientService) {
 		this.recipeRepository = recipeRepository;
+		this.recipeService = recipeService;
 		this.tagRepository = tagRepository;
 		this.ingredientService = ingredientService;
 	}
-	
+
 	@ModelAttribute("allTags")
 	public List<Tag> getAllTags() {
 		List<Tag> allTags = tagRepository.findAll();
@@ -65,6 +68,24 @@ public class RecipeController extends AbstractController {
 			model.addAttribute("recipe", optionalRecipe.get());
 		}
 		return "recipe/update";
+	}
+	
+	@GetMapping("recipe/create")
+	public String getNewRecipeForm(Model model) {	
+		model.addAttribute("recipe", new Recipe());
+		return "recipe/create";
+	}
+	
+	@PostMapping("recipe/create")
+	public String createRecipe(@Valid @ModelAttribute("recipe") Recipe recipe, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			bindingResult.getAllErrors().forEach(objectError -> {
+				log.debug(objectError.toString());
+			});
+			return "recipe/create";
+		}
+		Recipe savedRecipe = recipeService.createRecipe(recipe);
+		return "redirect:/recipe/" + savedRecipe.getId() + "/update";
 	}
 	
 	@PostMapping("recipe/update")
