@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.cookplanner.model.Recipe;
+import nl.cookplanner.exception.NotFoundException;
 import nl.cookplanner.repositories.RecipeRepository;
 import nl.cookplanner.services.RecipeService;
 
@@ -35,16 +36,14 @@ public class RecipeServiceImpl implements RecipeService {
 		
 		Optional<Recipe> optionalRecipe = recipeRepository.findById(id);
 		if (!optionalRecipe.isPresent()) {
-			// TODO implement correct errorhandling
-			log.error("Recept met ID " + id.toString() + " niet gevonden.");
+			throw new NotFoundException("Recept met ID " + id.toString() + " niet gevonden.");
 		}
 		return optionalRecipe.get();
 	}
 
 	@Override
 	public void deleteRecipeById(Long id) {
-		
-		log.debug("delete recipe not implemented yet");
+		recipeRepository.deleteById(id);
 	}
 
 	// TODO consider if there should be changes between update and create

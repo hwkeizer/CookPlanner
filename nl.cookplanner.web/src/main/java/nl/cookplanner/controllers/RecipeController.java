@@ -54,10 +54,8 @@ public class RecipeController extends AbstractController {
 	
 	@GetMapping("recipe/{id}/show")
 	public String showRecipeById(@PathVariable String id, Model model) {
-		Optional<Recipe> optionalRecipe = recipeRepository.findById(Long.valueOf(id));
-		if (optionalRecipe.isPresent()) {
-			model.addAttribute("recipe", optionalRecipe.get());
-		}
+		Recipe recipe = recipeService.findRecipeById(Long.valueOf(id));
+		model.addAttribute("recipe", recipe);
 		return "recipe/show-details";
 	}
 	
@@ -101,5 +99,14 @@ public class RecipeController extends AbstractController {
 		recipe.setIngredients(ingredientService.findAllIngredientsForRecipe(recipe.getId()));
 		recipeRepository.save(recipe);
 		return "redirect:/recipe/" + recipe.getId() + "/show";
+	}
+	
+	// TODO: turn this into a Delete mapping!
+	@GetMapping("recipe/{id}/delete")
+	public String deleteRecipeById(@PathVariable String id) {
+		log.debug("Deleting id: {}", id);
+		
+		recipeService.deleteRecipeById(Long.valueOf(id));
+		return "redirect:/";
 	}
 }
