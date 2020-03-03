@@ -19,7 +19,9 @@
 				<a class="btn btn-success bg-success m-2" th:href="@{/recipe/list}" role="button">Naar overzicht</a> 
 				<a class="btn btn-success bg-success m-2" th:href="@{'/recipe/' + ${recipe.id} + '/update'}" role="button">Recept wijzigen</a>
 				<a class="btn btn-success bg-success m-2" th:href="@{'/ingredient/list/' + ${recipe.id}}" role="button">Ingrediënten wijzigen</a> 
-				<a class="btn btn-danger bg-danger m-2"	th:href="@{'/recipe/' + ${recipe.id} + '/delete'}" role="button">Recept	verwijderen</a>
+				<a th:data-recipeId="${recipe.id}" th:data-recipeName="${recipe.name}"
+					onClick="ConfirmDelete(this.getAttribute('data-recipeName'), this.getAttribute('data-recipeId'));" 
+					class="btn btn-danger bg-danger m-2" role="button">Recept verwijderen</a>
 			</div>
 
 			<div class="row">
@@ -123,6 +125,7 @@
 
 	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
 	<script th:src="@{/js/navigation.js}"></script>
+	<script th:src="@{/js/recipe.js}"></script>
 
 </body>
 </html>

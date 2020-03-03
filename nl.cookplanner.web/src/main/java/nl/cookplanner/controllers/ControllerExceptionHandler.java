@@ -11,7 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Slf4j
 @ControllerAdvice
-public class ControllerExceptionHandler {
+public class ControllerExceptionHandler extends AbstractController {
 	
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ExceptionHandler(NumberFormatException.class)
@@ -22,6 +22,7 @@ public class ControllerExceptionHandler {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("errors/400error");
 		modelAndView.addObject("exception", exception);
+		modelAndView.addObject("appVersion", appVersion);
 		return modelAndView;
 	}
 	
@@ -34,6 +35,7 @@ public class ControllerExceptionHandler {
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.setViewName("errors/404error");
 		modelAndView.addObject("exception", exception);
+		modelAndView.addObject("appVersion", appVersion);
 		return modelAndView;
 	}
 }

@@ -101,7 +101,7 @@ public class RecipeController extends AbstractController {
 		return "redirect:/recipe/" + recipe.getId() + "/show";
 	}
 	
-	// TODO: turn this into a Delete mapping!
+	// TODO: turn this into a Delete mapping
 	@GetMapping("recipe/{id}/delete")
 	public String deleteRecipeById(@PathVariable String id) {
 		log.debug("Deleting id: {}", id);

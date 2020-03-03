@@ -4,6 +4,14 @@ $(document).ready( function () {
 	showRecipeTable();
 });
 
+function ConfirmDelete(recipeName, recipeId) {
+	if (confirm("Weet u zeker dat u het recept " + recipeName + " wilt verwijderen?")) {
+		location.href = "/recipe/" + recipeId + "/delete";
+	  } else {
+
+	  }
+}
+
 function showRecipeTable() {
 	var table = $('#recipeList').DataTable({
 		"aoColumns": [
