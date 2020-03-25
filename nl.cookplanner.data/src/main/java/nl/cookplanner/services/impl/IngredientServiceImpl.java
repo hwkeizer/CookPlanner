@@ -61,8 +61,8 @@ public class IngredientServiceImpl implements IngredientService {
 	}
 
 	@Override
-	public void updateIngredient(Ingredient ingredient) {
-		ingredientRepository.save(ingredient);
+	public Ingredient updateIngredient(Ingredient ingredient) {
+		return ingredientRepository.save(ingredient);
 	}
 
 }

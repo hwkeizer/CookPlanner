@@ -58,7 +58,9 @@ public class RecipeControllerTest {
 
 		when(recipeService.findRecipeById(anyLong())).thenReturn(recipe);
 
-		mockMvc.perform(get("/recipe/1/show")).andExpect(status().isOk()).andExpect(view().name("recipe/show-details"))
+		mockMvc.perform(get("/recipe/1/show"))
+				.andExpect(status().isOk())
+				.andExpect(view().name("recipe/show-details"))
 				.andExpect(model().attributeExists("recipe"));
 	}
 	
@@ -115,8 +117,7 @@ public class RecipeControllerTest {
 		
 		mockMvc.perform(post("/recipe/create")
 			.contentType(MediaType.APPLICATION_FORM_URLENCODED)
-			.param("id", "")
-		)
+			.param("id", ""))
 			.andExpect(status().isOk())
 			.andExpect(model().attributeExists("recipe"))
 			.andExpect(view().name("recipe/create"));		

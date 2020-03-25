@@ -15,7 +15,7 @@ public interface PlanBoardService {
 	
 	boolean addPlanning();
 	
-	void setOnShoppingList(Long planningId, boolean onShoppingList);
+	Planning setOnShoppingList(Long planningId, boolean onShoppingList);
 	
 	public boolean removePlanning(Long planningId);
 	

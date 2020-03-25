@@ -12,7 +12,7 @@ public interface IngredientService {
 	
 	public void deleteIngredient(Long ingredientId);
 	
-	public void updateIngredient(Ingredient ingredient);
+	public Ingredient updateIngredient(Ingredient ingredient);
 	
 	public Ingredient findIngredientById(Long ingredientId);
 	

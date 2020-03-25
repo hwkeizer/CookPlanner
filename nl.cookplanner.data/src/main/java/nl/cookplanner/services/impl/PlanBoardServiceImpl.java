@@ -102,10 +102,10 @@ public class PlanBoardServiceImpl implements PlanBoardService {
 	}
 
 	@Override
-	public void setOnShoppingList(Long planningId, boolean onShoppingList) {
+	public Planning setOnShoppingList(Long planningId, boolean onShoppingList) {
 		Planning planning = getPlanning(planningId);
 		planning.setOnShoppingList(onShoppingList);
-		planningRepository.save(planning);
+		return planningRepository.save(planning);
 	}
 	
 	private Planning getPlanning(Long planningId) {

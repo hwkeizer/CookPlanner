@@ -39,7 +39,7 @@ public class IngredientController extends AbstractController {
 	}
 
 	@GetMapping("/list/{recipeId}")
-	public String showIngredientListForRecipe(@PathVariable String recipeId, Model model) {
+	public String showIngredientListForRecipeId(@PathVariable String recipeId, Model model) {
 		Recipe recipe = recipeService.findRecipeById(Long.valueOf(recipeId));
 		model.addAttribute("ingredientList", recipe.getIngredients());
 		model.addAttribute("recipeId", recipeId);
@@ -47,7 +47,7 @@ public class IngredientController extends AbstractController {
 	}
 
 	@GetMapping("/create/{recipeId}")
-	public String createIngredient(@PathVariable String recipeId, Model model) {
+	public String showCreateIngredientForm(@PathVariable String recipeId, Model model) {
 		
 		Ingredient ingredient = new Ingredient();
 		ingredient.setMeasureUnit(new MeasureUnit());
@@ -61,8 +61,10 @@ public class IngredientController extends AbstractController {
 	}
 	
 	@PostMapping("create/{recipeId}")
-	public String saveIngredient(@PathVariable String recipeId, @ModelAttribute Ingredient ingredient, Model model) {
+	public String createIngredient(@PathVariable String recipeId, @ModelAttribute Ingredient ingredient, Model model) {
 
+		// Set measureUnit and ingredientName based on their id's
+		// TODO: this should be done differently, ingredient should have the full measureUnit and ingredientName already!
 		ingredient.setMeasureUnit(measureUnitService.findMeasureUnitById(ingredient.getMeasureUnit().getId()));
 		ingredient.setName(ingredientNameService.findIngredientNameById(ingredient.getName().getId()));
 		Ingredient savedIngredient = ingredientService.createIngredientForRecipe(ingredient, Long.valueOf(recipeId));
@@ -72,7 +74,7 @@ public class IngredientController extends AbstractController {
 	}	
 	
 	@GetMapping("/{ingredientId}/update/{recipeId}")
-	public String updateIngredient(@PathVariable String recipeId, @PathVariable String ingredientId, Model model) {
+	public String showUpdateIngredientForm(@PathVariable String recipeId, @PathVariable String ingredientId, Model model) {
 		Ingredient ingredient = ingredientService.findIngredientById(Long.valueOf(ingredientId));
 		
 		model.addAttribute("ingredient", ingredient);
