@@ -26,7 +26,7 @@
 					th:href="@{/planning/shopping}" role="button">Boodschappenlijst
 					genereren</a>
 			</div>
-
+			<div id="result"></div>
 			<table id="planninglist" class="display">
 				<thead>
 					<tr>
@@ -42,15 +42,17 @@
 				<tbody>
 					<tr th:each="planning : ${plannings}">
 						<td th:text="${#temporals.format(planning.date,'YYYY-MM-dd')}">Datum</td>
-						<td th:text="${#temporals.dayOfWeekName(planning.date)}"></td>
+						<td id="weekday" th:text="${#temporals.dayOfWeekName(planning.date)}"></td>
 						<td>
-							<div th:text="${planning.name}">Recept naam</div>
+							<div th:each="recipe : ${planning.getRecipesOrderedByType()}">
+								<a th:href="@{'/recipe/' + ${recipe.id} + '/show'}" th:text="${recipe.name}"></a>
+							</div>
 						</td>
 						<td th:text="${planning.id}">Planning ID</td>
-						<td><div th:if="${planning.recipe != null}"
+						<td><div th:if="${planning.recipes != null}"
 								th:text="${planning.servings}"></div></td>
 						<td>
-							<div class="mx-5" th:if="${planning.recipe != null}">
+							<div class="mx-5" th:if="${planning.recipes != null}">
 								<div th:if="${planning.onShoppingList}">
 									<a th:href="@{'/planning/' + ${planning.id} + '/shopping_off'}">
 										<img th:src="@{/images/select-icon.png}" />

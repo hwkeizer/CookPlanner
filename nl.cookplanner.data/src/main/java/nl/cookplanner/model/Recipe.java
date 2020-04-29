@@ -102,4 +102,9 @@ public class Recipe {
 			return "";
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Recipe [id=" + id + ", name=" + name + ", recipeType=" + recipeType + "]";
+	}
 }

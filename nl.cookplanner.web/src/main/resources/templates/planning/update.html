@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/header.html :: header">
+<title id="pageTitle">Planning wijzigen</title>
+</head>
+
+<body>
+
+	<div th:replace="fragments/banner.html :: banner"></div>
+	<div id="wrapper">
+		<div th:replace="fragments/navigation.html :: main-nav"></div>
+		<div id="content-wrapper" class="container mt-3 col-4">
+			<form th:object="${planning}"
+				th:action="@{'/planning/update'} " method="post">
+				<div class="row justify-content-center mb-3">
+					<h1 class="my-5 pageheader panel-title">Planning wijzigen</h1>
+				</div>
+				<input type="hidden" th:field="*{id}" />
+				<input type="hidden" th:field="*{date}" />
+				<div class="form-group form-row">
+					<label class="col-3 col-form-label">Recepten</label>
+					<div class="col-8">
+						<div th:each="recipe : ${planning.getRecipesOrderedByType()}">
+							<a th:href="@{'/recipe/' + ${recipe.id} + '/show'}" th:text="${recipe.name}"></a>
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-row">
+					<label for="preparation_time" class="col-3 col-form-label">Aantal personen</label>
+					<div class="col-3">
+						<input id="servings" type="text" class="form-control"
+							th:field="*{servings}" th:errorclass="has-error" />
+						<div class="help-block text-danger"
+							th:if="${#fields.hasErrors('servings')}">
+							<p th:each="err : ${#fields.errors('servings')}"
+								th:text="${err}" />
+						</div>
+					</div>
+				</div>
+				<div class="form-group form-row">
+					<label class="col-3 col-form-label">Recept toevoegen</label>
+					<div class="col-9">
+						<select class="form-control combobox" name="newRecipeId">
+							<option></option>
+							<option th:each="recipe : ${recipeList}"
+								th:value="${recipe.id}"
+								th:selected="${recipe.id.equals(newRecipeId)}"
+								th:text="${recipe.name}">Recipe</option>
+						</select>
+					</div>
+				</div>		
+			
+				<input type="hidden" th:field="*{recipes}" />
+				<input type="hidden" th:field="*{servings}" />
+				<input type="hidden" th:field="*{onShoppingList}" />
+				<div class="row justify-content-center mb-3">
+					<a class="btn btn-warning mx-3" th:href="@{/planning/overview}">Annuleren</a>
+					<button type="submit" class="mx-3 btn btn-success">Opslaan</button>
+				</div>
+			</form>
+		</div>
+		<!-- /#content-wrapper -->
+	</div>
+	<!-- /#wrapper -->
+	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
+	<script th:src="@{/js/navigation.js}"></script>
+</body>
+</html>

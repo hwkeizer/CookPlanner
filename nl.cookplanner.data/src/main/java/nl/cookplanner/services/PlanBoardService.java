@@ -2,28 +2,30 @@ package nl.cookplanner.services;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import nl.cookplanner.model.Ingredient;
 import nl.cookplanner.model.Planning;
 import nl.cookplanner.model.Recipe;
+import nl.cookplanner.model.UpdatePlanDates;
 
 public interface PlanBoardService {
-
-	boolean savePlanBoard();
 	
 	boolean addPlanning(Recipe recipe);
 	
 	boolean addPlanning();
 	
+	void updatePlanning(Planning planning);
+	
 	Planning setOnShoppingList(Long planningId, boolean onShoppingList);
-	
-	public boolean removePlanning(Long planningId);
-	
-	public void movePlanning(Long planningId, LocalDate localDate);
 	
 	void deletePlanningById(Long planningId);
 	
-	Iterable<Planning> getPlannings();
+	Optional<Planning> findById(Long planningId);
+	
+	List<Planning> getPlannings();
 	
 	List<Ingredient> getShoppingList(boolean stock);
+
+	void updateNewPlanDates(List<UpdatePlanDates> newPlanDates);
 }

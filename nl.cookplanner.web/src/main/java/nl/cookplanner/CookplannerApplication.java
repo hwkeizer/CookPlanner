@@ -11,7 +11,8 @@ import org.springframework.context.annotation.ComponentScan;
 	"nl.cookplanner.model", 
 	"nl.cookplanner.repositories",
 	"nl.cookplanner.services",
-	"nl.cookplanner.controllers"})
+	"nl.cookplanner.controllers",
+	"nl.cookplanner.utilities"})
 @SpringBootApplication
 public class CookplannerApplication {
 

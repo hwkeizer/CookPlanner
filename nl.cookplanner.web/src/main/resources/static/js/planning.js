@@ -10,30 +10,28 @@ function showTable() {
             
         }
 	});
-	table.column(3).visible(false);
+	table.column(3).visible(true);
 	table.on( 'row-reorder', function ( e, diff, edit ) {
-		var result = 'Reorder started on row: '+edit.triggerRow.data()[1]+'<br>';
-		
-
+		let result = "[";
         for ( var i=0, ien=diff.length ; i<ien ; i++ ) {
             var rowData = table.row( diff[i].node ).data();
-            result += rowData[3]+' updated to be in position '+
-                diff[i].newData+' (was '+diff[i].oldData+')<br>';
-            updatePlanning(rowData[3], diff[i].newData)
+            result += "{\"id\" : " + rowData[3] + ', \"date\" : \"'+diff[i].newData+'\"},';
         }
+        result = result.replace(/.$/,"]")
+        updatePlanning(result);
     } );
+	$('#planninglist tbody').on('click', 'tr', function(){
+		var data = table.row(this).data();
+		location.href = "/planning/" + data[3] + "/update";
+	});
 }
 
-function updatePlanning(id, date) {
-	console.log("id: " + id + "date: " + date)
+function updatePlanning(result) {
 	$.ajax({
-		url: "/planning/" + id + "/" + date + "/update",
+		url: "/planning/newdates",
+		data: result,
+		contentType: "application/json; charset=utf-8",
+	    dataType: "json",
 		method: "POST",
-		error: function() {
-			console.log("Error in test!!!")
-		},
-		success: function(data, textstatus, request) {
-		}
-	
 	})
 }

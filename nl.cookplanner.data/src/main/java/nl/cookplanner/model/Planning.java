@@ -1,13 +1,19 @@
 package nl.cookplanner.model;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,22 +32,19 @@ public class Planning implements Comparable<Planning> {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@Column(unique=true)
+	@Column(unique = true)
 	private LocalDate date;
 	
-	@ManyToOne
-	private Recipe recipe;
-	
-	@Column(length = 60)
-	private String name = "- Geen recept gepland -";
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "planning_recipe", joinColumns = @JoinColumn(name = "planning_id"), inverseJoinColumns = @JoinColumn(name = "recipe_id"))
+	private List<Recipe> recipes = new ArrayList<>();
 	
 	private Integer servings;	
 	private boolean onShoppingList = true;
 	
 	public Planning(LocalDate date, Recipe recipe, boolean onShoppingList) {
 		this.date = date;
-		this.recipe = recipe;
-		this.name = recipe.getName();
+		this.recipes.add(recipe);
 		this.servings = recipe.getServings();
 		this.onShoppingList = onShoppingList;
 	}
@@ -50,12 +53,23 @@ public class Planning implements Comparable<Planning> {
 		this.date = date;
 	}
 	
-	public void setRecipe(Recipe recipe) {
+	
+	public void addRecipe(Recipe recipe) {
 		if (recipe != null) {
-			this.recipe = recipe;
-			this.name = recipe.getName();
-			this.servings = recipe.getServings();
+			this.recipes.add(recipe);
 		}
+	}
+	
+	public List<Recipe> getRecipesOrderedByType() {
+		List<Recipe> orderedRecipes = new ArrayList<>();
+		for (RecipeType type : RecipeType.values()) {
+			for (Recipe recipe : recipes) {
+				if (recipe.getRecipeType().equals(type)) {
+					orderedRecipes.add(recipe);
+				}
+			}
+		}
+		return orderedRecipes;
 	}
 	
 	@Override
@@ -63,6 +77,9 @@ public class Planning implements Comparable<Planning> {
 		return this.getDate().compareTo(other.getDate());
 	}
 
+	/**
+	 * Each planning has a unique date therefore the equals/hash uses only the date field
+	 */
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -87,4 +104,12 @@ public class Planning implements Comparable<Planning> {
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
 		return result;
 	}
+
+	@Override
+	public String toString() {
+		return "Planning [id=" + id + ", date=" + date + ", servings=" + servings + ", onShoppingList=" + onShoppingList
+				+ "]";
+	}
+
+	
 }

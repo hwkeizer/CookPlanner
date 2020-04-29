@@ -8,11 +8,11 @@ package nl.cookplanner.model;
  */
 public enum RecipeType {
 	AMUSE("Amuse"), 
-	VOORGERECHT("Voorgerecht"), 
-	HOOFDGERECHT("Hoofdgerecht"), 
-	NAGERECHT("Nagerecht"), 
-	BIJGERECHT("Bijgerecht"), 
-	TUSSENGERECHT("Tussengerecht");
+	VOORGERECHT("Voorgerecht"),
+	TUSSENGERECHT("Tussengerecht"),
+	HOOFDGERECHT("Hoofdgerecht"),
+	BIJGERECHT("Bijgerecht"),
+	NAGERECHT("Nagerecht");
 	
 	private String displayName;
 	

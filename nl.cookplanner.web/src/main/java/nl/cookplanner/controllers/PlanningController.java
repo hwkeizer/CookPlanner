@@ -1,17 +1,29 @@
 package nl.cookplanner.controllers;
 
-import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.cookplanner.model.Ingredient;
+import nl.cookplanner.model.Planning;
 import nl.cookplanner.model.Recipe;
+import nl.cookplanner.model.UpdatePlanDates;
 import nl.cookplanner.services.PlanBoardService;
 import nl.cookplanner.services.RecipeService;
 
@@ -22,24 +34,35 @@ public class PlanningController extends AbstractController {
 	private final RecipeService recipeService;
 	private final PlanBoardService planBoardService;
 	
-	public PlanningController(RecipeService recipeService, PlanBoardService planningService) {
+	public PlanningController(RecipeService recipeService, PlanBoardService planBoardService) {
 		this.recipeService = recipeService;
-		this.planBoardService = planningService;
+		this.planBoardService = planBoardService;
 	}
 	
+	/**
+	 * Show the planning overview
+	 */
 	@GetMapping("planning/overview")
 	public String showPlanningOverview(Model model) {
-		model.addAttribute("plannings", planBoardService.getPlannings());
+		List<Planning> planningList = planBoardService.getPlannings();
+		model.addAttribute("plannings", planningList);
 		return "planning/overview";
 	}
 	
-	// TODO: Should this be a postmapping?
-	@GetMapping("planning/update")
-	public String updatePlanning() {
-		planBoardService.savePlanBoard();
+	/**
+	 * Process the new plan dates after a row reordering event
+	 */
+	@PostMapping("planning/newdates")
+	public String updatePlanning(@RequestBody  String planDates, Model model) {
+		planBoardService.updateNewPlanDates(processUpdatePlandates(planDates));
+		List<Planning> planningList = planBoardService.getPlannings();
+		model.addAttribute("plannings", planningList);
 		return "redirect:/planning/overview";
 	}
 
+	/*
+	 * Create a new planning with an initial recipeId
+	 */
 	@PostMapping("planning/{recipeId}/new")
 	public String addNewPlanning(@PathVariable String recipeId) {
 		Recipe recipe = recipeService.findRecipeById(Long.valueOf(recipeId));
@@ -47,37 +70,72 @@ public class PlanningController extends AbstractController {
 		return "redirect:/recipe/list";
 	}
 	
+	/**
+	 * Create a new empty planning
+	 */
 	@PostMapping("planning/new")
 	public String addEmptyPlanning() {
 		planBoardService.addPlanning();
 		return "redirect:/planning/overview";
 	}
 	
-	// TODO: Check if this should be done with Get...
+	/**
+	 * Delete a planning from the list
+	 */
+	// TODO: Should be done with DELETE request
 	@GetMapping("/planning/{planningId}/delete")
 	public String deletePlanning(@PathVariable String planningId) {
-		planBoardService.removePlanning(Long.valueOf(planningId));
+		planBoardService.deletePlanningById(Long.valueOf(planningId));
 		return "redirect:/planning/overview";
 	}
 	
+	
 	@GetMapping("/planning/{planningId}/shopping_off")
 	public String shoppingOff(@PathVariable String planningId) {
+		log.debug("OFF ID: {}", planningId);
 		planBoardService.setOnShoppingList(Long.valueOf(planningId), false);
 		return "redirect:/planning/overview";
 	}
 	
 	@GetMapping("/planning/{planningId}/shopping_on")
 	public String shoppingOn(@PathVariable String planningId) {
+		log.debug("ON ID: {}", planningId);
 		planBoardService.setOnShoppingList(Long.valueOf(planningId), true);
 		return "redirect:/planning/overview";
 	}
 	
-	// TODO: Test
-	@PostMapping("/planning/{id}/{date}/update")
-	public String updatePlanning(@PathVariable String id, @PathVariable String date) {
-		planBoardService.movePlanning(Long.valueOf(id), LocalDate.parse(date));
+	
+	@GetMapping("/planning/{id}/update")
+	public String getPlanningUpdateForm(Model model, @PathVariable String id) {
+		Optional<Planning> planning = planBoardService.findById(Long.valueOf(id));
+		if (planning.isPresent()) {
+			model.addAttribute("planning", planning.get());
+			model.addAttribute("recipeList", recipeService.findAllRecipes());
+			model.addAttribute("newRecipeId");
+		} 
+		return "planning/update";
+	}
+	
+	@PostMapping("/planning/update")
+	public String updatePlanning(@Valid @ModelAttribute("planning") Planning planning, 
+			@ModelAttribute("newRecipeId") String id, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			bindingResult.getAllErrors().forEach(objectError -> {log.debug(objectError.toString());});
+		}
+		if (!id.isEmpty()) {
+			Recipe recipe = recipeService.findRecipeById(Long.valueOf(id));
+			planning.addRecipe(recipe);
+		}
+		planBoardService.updatePlanning(planning);
 		return "redirect:/planning/overview";
 	}
+	
+//	// TODO: Test
+//	@PostMapping("/planning/{id}/{date}/update")
+//	public String updatePlanningOrder(@PathVariable String id, @PathVariable String date) {
+//		planBoardService.movePlanning(Long.valueOf(id), LocalDate.parse(date));
+//		return "redirect:/planning/overview";
+//	}
 	
 	@GetMapping("/planning/shopping")
 	public String generateShoppingList(Model model) {
@@ -86,5 +144,18 @@ public class PlanningController extends AbstractController {
 		model.addAttribute("shoppingList", shoppingList);
 		model.addAttribute("stockList", stockList);
 		return "planning/shoppinglist";
+	}
+	
+	private List<UpdatePlanDates> processUpdatePlandates(String planDates) {
+		ObjectMapper mapper  = new ObjectMapper()
+		        .findAndRegisterModules()
+		        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+		List<UpdatePlanDates> updatePlanDates = null;
+		try {
+			updatePlanDates = mapper.readValue(planDates,new TypeReference<List<UpdatePlanDates>>() {});
+		} catch (JsonProcessingException e) {
+			e.printStackTrace();
+		}
+		return updatePlanDates;
 	}
 }
