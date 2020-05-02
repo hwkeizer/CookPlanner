@@ -11,6 +11,9 @@ function showMeasureUnitTable() {
             null,
             null
         ],
+        "columnDefs": [
+			{ "width": "10%", "targets": 3 }
+		],
 		"language": {
 			"lengthMenu": "Toon _MENU_ maateenheden per pagina",
 			"zeroRecords": "Geen maateenheden gevonden",

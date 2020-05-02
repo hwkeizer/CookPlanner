@@ -33,7 +33,9 @@
 						<th>Maateenheid</th>
 						<th>Naam</th>
 						<th>Voorraad</th>
+						<!-- Removed due to bug in update
 						<th>Wijzigen</th>
+						 -->
 						<th>Verwijderen</th>
 					</tr>
 				</thead>
@@ -56,11 +58,13 @@
 							th:checked="${ingredient.getName().isStock()}"
 							disabled="disabled">
 						</td>
+						<!-- Removed due to bug in update
 						<td class="text-center"><a
 							th:href="@{'/ingredient/' + ${ingredient.id} + '/update/' + ${recipeId}}"> <img
 							th:src="@{/images/edit-icon.png}" />
 							</a>
 						</td>
+						 -->
 						<td class="text-center"><a
 							th:href="@{'/ingredient/' + ${ingredient.id} + '/delete/' + ${recipeId}}"> <img
 							th:src="@{/images/delete-icon.png}" />

@@ -5,7 +5,6 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -37,6 +36,23 @@ public class MeasureUnitController extends AbstractController {
 		return "measure-unit/list";
 	}
 	
+	@GetMapping("create")
+	public String getMeasureUnitCreateForm(Model model)
+	{
+		MeasureUnit measureUnit = new MeasureUnit();
+		model.addAttribute("measureUnit", measureUnit);
+		return "measure-unit/create";
+	}
+	
+	@PostMapping("create")
+	public String createIngredientName(@Valid @ModelAttribute("measureUnit") MeasureUnit measureUnit, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			bindingResult.getAllErrors().forEach(objectError -> {log.debug(objectError.toString());});
+		}
+		measureUnitRepository.save(measureUnit);
+		return "redirect:/measure-unit/list";
+	}
+	
 	@GetMapping("{id}/update")
 	public String getMeasureUnitForm(Model model, @PathVariable String id) {
 		Optional<MeasureUnit> measureUnit = measureUnitRepository.findById(Long.valueOf(id));
@@ -52,6 +68,14 @@ public class MeasureUnitController extends AbstractController {
 			bindingResult.getAllErrors().forEach(objectError -> {log.debug(objectError.toString());});
 		}
 		measureUnitRepository.save(measureUnit);
+		return "redirect:/measure-unit/list";
+	}
+	
+	// TODO make this a delete mapping
+	@GetMapping("{id}/delete")
+	public String deleteMeasureUnit(@PathVariable String id) {
+		// TODO Add check on in use (or throw exception when measureUnit in use)
+		measureUnitRepository.deleteById(Long.valueOf(id));
 		return "redirect:/measure-unit/list";
 	}
 	
