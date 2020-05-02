@@ -7,8 +7,11 @@
 	<div th:replace="fragments/banner.html :: banner"></div>
 	<div id="wrapper">
 		<div th:replace="fragments/navigation.html :: main-nav"></div>
-		<div id="content-wrapper" class="container mt-5">
-			<h1 class="mb-5 pageheader">Ingrediënten</h1>
+		<div id="content-wrapper" class="container">
+			<div class="row pull-right">
+				<a class="btn btn-success bg-success m-2 " th:href="@{/ingredient-name/create}" role="button">Ingrediënt toevoegen</a> 
+			</div>
+			<h1 class="pageheader">Ingrediënten</h1>
 			<table id="ingredientNameList"
 				class="table-warning table-bordered">
 				<thead>
@@ -17,6 +20,7 @@
 						<th>Naam</th>
 						<th>Meervoud</th>
 						<th>Voorraad</th>
+						<th>Verwijderen</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -25,6 +29,11 @@
 						<td th:text="${ingredientName.getName()}"></td>
 						<td th:text="${ingredientName.getPluralName()}"></td>
 						<td class="text-center"><input type="checkbox" th:checked="${ingredientName.isStock()}" disabled="disabled"></td>
+						<td class="text-center"><a
+							th:href="@{'/ingredient-name/' + ${ingredientName.id} + '/delete'}"> <img
+							th:src="@{/images/delete-icon.png}" />
+							</a>
+						</td>
 					</tr>
 				</tbody>
 			</table>

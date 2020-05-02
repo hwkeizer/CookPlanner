@@ -10,10 +10,12 @@ function showIngredientNameTable() {
             null,
             null,
             null,
+            null,
             { "orderSequence": [  ] },
         ],
 		"columnDefs": [
-			{ "width": "10%", "targets": 3 }
+			{ "width": "10%", "targets": 3 },
+			{ "width": "10%", "targets": 4 }
 		],
 		"language": {
 			"lengthMenu": "Toon _MENU_ ingrediënten per pagina",

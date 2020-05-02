@@ -38,8 +38,25 @@ public class IngredientNameController extends AbstractController {
 		return "ingredient-name/list";
 	}
 	
+	@GetMapping("create")
+	public String getIngredientNameCreateForm(Model model)
+	{
+		IngredientName ingredientName = new IngredientName();
+		model.addAttribute("ingredientName", ingredientName);
+		return "ingredient-name/create";
+	}
+	
+	@PostMapping("create")
+	public String createIngredientName(@Valid @ModelAttribute("ingredientName") IngredientName ingredientName, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			bindingResult.getAllErrors().forEach(objectError -> {log.debug(objectError.toString());});
+		}
+		ingredientNameRepository.save(ingredientName);
+		return "redirect:/ingredient-name/list";
+	}
+	
 	@GetMapping("{id}/update")
-	public String getIngredientNameForm(Model model, @PathVariable String id) {
+	public String getIngredientNameUpdateForm(Model model, @PathVariable String id) {
 		Optional<IngredientName> ingredientName = ingredientNameRepository.findById(Long.valueOf(id));
 		if (ingredientName.isPresent()) {
 			model.addAttribute("ingredientName", ingredientName.get());
@@ -53,6 +70,14 @@ public class IngredientNameController extends AbstractController {
 			bindingResult.getAllErrors().forEach(objectError -> {log.debug(objectError.toString());});
 		}
 		ingredientNameRepository.save(ingredientName);
+		return "redirect:/ingredient-name/list";
+	}
+	
+	// TODO make this a delete mapping
+	@GetMapping("{id}/delete")
+	public String deleteIngredientName(@PathVariable String id) {
+		// TODO Add check on in use (or throw exception when ingredientName in use)
+		ingredientNameRepository.deleteById(Long.valueOf(id));
 		return "redirect:/ingredient-name/list";
 	}
 	

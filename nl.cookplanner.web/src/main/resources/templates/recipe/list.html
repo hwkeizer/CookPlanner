@@ -6,21 +6,14 @@
 </head>
 
 <body>
-
 	<div th:replace="fragments/banner.html :: banner"></div>
-
 	<div id="wrapper">
-		
 		<div th:replace="fragments/navigation.html :: main-nav"></div>
-
 		<div id="content-wrapper" class="container">
-		
-		<div class="row pull-right">
-			<a class="btn btn-success bg-success m-2 " th:href="@{/recipe/create}" role="button">Recept toevoegen</a> 
-		</div>
-
+			<div class="row pull-right">
+				<a class="btn btn-success bg-success m-2 " th:href="@{/recipe/create}" role="button">Recept toevoegen</a> 
+			</div>
 			<h1 class=" pageheader">Recepten</h1>
-			
 			<table id="recipeList"	class="table table-bordered table-striped">
 				<thead>
 					<tr>
@@ -48,16 +41,10 @@
 					</tr>
 				</tbody>
 			</table>
-
-		</div>
-		<!-- /#content-wrapper -->
-
-	</div>
-	<!-- /#wrapper -->
-	
+		</div> <!-- /#content-wrapper -->
+	</div> <!-- /#wrapper -->
 	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
 	<script th:src="@{/js/recipe.js}"></script>
 	<script th:src="@{/js/navigation.js}"></script>
-
 </body>
 </html>
