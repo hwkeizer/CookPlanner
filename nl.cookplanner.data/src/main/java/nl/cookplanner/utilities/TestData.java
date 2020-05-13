@@ -26,6 +26,7 @@ public class TestData {
 		recipeList.add(getRecipe(4L, "Hoofdgerecht", RecipeType.HOOFDGERECHT));
 		recipeList.add(getRecipe(2L, "Nagerecht", RecipeType.NAGERECHT));
 		return recipeList;
+		
 	}
 	
 	private static Recipe getRecipe(Long id, String name, RecipeType recipeType) {
