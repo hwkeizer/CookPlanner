@@ -17,12 +17,12 @@ class PlanBoardServiceImplTest {
 	
 	@Test
 	void testGetShoppingList() {
-		fail("Not yet implemented");
+		// TODO implement
 	}
 
 	@Test
 	void testGetShoppingListIngredients() {
-		fail("Not yet implemented");
+		// TODO implement
 	}
 
 }
