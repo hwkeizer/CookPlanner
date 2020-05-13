@@ -48,17 +48,6 @@ public class PlanningController extends AbstractController {
 		model.addAttribute("plannings", planningList);
 		return "planning/overview";
 	}
-	
-	/**
-	 * Process the new plan dates after a row reordering event
-	 */
-	@PostMapping("planning/newdates")
-	public String updatePlanning(@RequestBody  String planDates, Model model) {
-		planBoardService.updateNewPlanDates(processUpdatePlandates(planDates));
-		List<Planning> planningList = planBoardService.getPlannings();
-		model.addAttribute("plannings", planningList);
-		return "redirect:/planning/overview";
-	}
 
 	/*
 	 * Create a new planning with an initial recipeId
@@ -78,32 +67,6 @@ public class PlanningController extends AbstractController {
 		planBoardService.addPlanning();
 		return "redirect:/planning/overview";
 	}
-	
-	/**
-	 * Delete a planning from the list
-	 */
-	// TODO: Should be done with DELETE request
-	@GetMapping("/planning/{planningId}/delete")
-	public String deletePlanning(@PathVariable String planningId) {
-		planBoardService.deletePlanningById(Long.valueOf(planningId));
-		return "redirect:/planning/overview";
-	}
-	
-	
-	@GetMapping("/planning/{planningId}/shopping_off")
-	public String shoppingOff(@PathVariable String planningId) {
-		log.debug("OFF ID: {}", planningId);
-		planBoardService.setOnShoppingList(Long.valueOf(planningId), false);
-		return "redirect:/planning/overview";
-	}
-	
-	@GetMapping("/planning/{planningId}/shopping_on")
-	public String shoppingOn(@PathVariable String planningId) {
-		log.debug("ON ID: {}", planningId);
-		planBoardService.setOnShoppingList(Long.valueOf(planningId), true);
-		return "redirect:/planning/overview";
-	}
-	
 	
 	@GetMapping("/planning/{id}/update")
 	public String getPlanningUpdateForm(Model model, @PathVariable String id) {
@@ -130,23 +93,50 @@ public class PlanningController extends AbstractController {
 		return "redirect:/planning/overview";
 	}
 	
-//	// TODO: Test
-//	@PostMapping("/planning/{id}/{date}/update")
-//	public String updatePlanningOrder(@PathVariable String id, @PathVariable String date) {
-//		planBoardService.movePlanning(Long.valueOf(id), LocalDate.parse(date));
-//		return "redirect:/planning/overview";
-//	}
+	/**
+	 * Delete a planning from the list
+	 */
+	// TODO: Should be done with DELETE request
+	@GetMapping("/planning/{planningId}/delete")
+	public String deletePlanning(@PathVariable String planningId) {
+		planBoardService.deletePlanningById(Long.valueOf(planningId));
+		return "redirect:/planning/overview";
+	}
+	
+	/**
+	 * Process the new plan dates after a row reordering event
+	 */
+	@PostMapping("planning/newdates")
+	public String updatePlanningWithNewDates(@RequestBody  String planDates, Model model) {
+		planBoardService.updateNewPlanDates(processUpdatePlandates(planDates));
+		List<Planning> planningList = planBoardService.getPlannings();
+		model.addAttribute("plannings", planningList);
+		return "redirect:/planning/overview";
+	}
+	
+	@GetMapping("/planning/{planningId}/shopping_off")
+	public String shoppingOff(@PathVariable String planningId) {
+		planBoardService.setOnShoppingList(Long.valueOf(planningId), false);
+		return "redirect:/planning/overview";
+	}
+	
+	@GetMapping("/planning/{planningId}/shopping_on")
+	public String shoppingOn(@PathVariable String planningId) {
+		planBoardService.setOnShoppingList(Long.valueOf(planningId), true);
+		return "redirect:/planning/overview";
+	}
 	
 	@GetMapping("/planning/shopping")
 	public String generateShoppingList(Model model) {
 		List<Ingredient> shoppingList = planBoardService.getShoppingList(false);
+		log.debug("Boodschappenlijst: {}", shoppingList);
 		List<Ingredient> stockList = planBoardService.getShoppingList(true);
 		model.addAttribute("shoppingList", shoppingList);
 		model.addAttribute("stockList", stockList);
 		return "planning/shoppinglist";
 	}
 	
-	private List<UpdatePlanDates> processUpdatePlandates(String planDates) {
+	List<UpdatePlanDates> processUpdatePlandates(String planDates) {
 		ObjectMapper mapper  = new ObjectMapper()
 		        .findAndRegisterModules()
 		        .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);

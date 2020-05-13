@@ -1,6 +1,5 @@
 package nl.cookplanner.controllers;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -24,8 +23,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import nl.cookplanner.model.Ingredient;
-import nl.cookplanner.model.IngredientName;
-import nl.cookplanner.model.MeasureUnit;
 import nl.cookplanner.model.Recipe;
 import nl.cookplanner.services.IngredientNameService;
 import nl.cookplanner.services.IngredientService;

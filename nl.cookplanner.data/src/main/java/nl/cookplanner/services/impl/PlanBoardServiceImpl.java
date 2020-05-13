@@ -108,7 +108,6 @@ public class PlanBoardServiceImpl implements PlanBoardService {
 			for (Ingredient resultIngredient : result) {
 				if (ingredient.getName().equals(resultIngredient.getName())) {
 					exists = true;
-					log.debug("RESULTING INGREDIENT: {}", resultIngredient);
 					if (ingredient.getAmount() != null && resultIngredient.getAmount() != null) {
 						resultIngredient.setAmount(ingredient.getAmount() + resultIngredient.getAmount());
 					}
@@ -124,7 +123,7 @@ public class PlanBoardServiceImpl implements PlanBoardService {
 	}
 	
 	
-	private List<Ingredient> getShoppingListIngredients(boolean isStock) {
+	protected List<Ingredient> getShoppingListIngredients(boolean isStock) {
 		List<Ingredient> ingredients = new ArrayList<>();
 		List<Planning> planningList = planningRepository.findAll();
 		for (Planning planning : planningList) {

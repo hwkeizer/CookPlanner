@@ -10,7 +10,7 @@ function showTable() {
             
         }
 	});
-	table.column(3).visible(true);
+	table.column(3).visible(false);
 	table.on( 'row-reorder', function ( e, diff, edit ) {
 		let result = "[";
         for ( var i=0, ien=diff.length ; i<ien ; i++ ) {
