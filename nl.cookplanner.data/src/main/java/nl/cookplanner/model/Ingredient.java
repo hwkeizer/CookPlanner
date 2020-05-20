@@ -1,5 +1,7 @@
 package nl.cookplanner.model;
 
+import java.text.DecimalFormat;
+
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -48,5 +50,18 @@ public class Ingredient {
 		this.name = name;
 		this.amount = amount;
 		this.measureUnit = measureUnit;
-	}	
+	}
+	
+	public String getAsShoppingLine() {
+		String strShoppingLine = "";
+		if (amount != null) {
+			strShoppingLine += new DecimalFormat("0.##").format(amount) +  " ";
+		}
+		if (amount != null && amount > 1) {
+			strShoppingLine += measureUnit.getPluralDisplayName() + " " + name.getPluralName();
+		} else {
+			strShoppingLine += measureUnit.getDisplayName() + " " + name.getName();
+		}
+		return strShoppingLine;
+	}
 }

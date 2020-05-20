@@ -8,51 +8,22 @@
 	<div id="wrapper">
 		<div th:replace="fragments/navigation.html :: main-nav"></div>
 		<div id="content-wrapper" class="container mt-5">
-			<div class="row justify-content-center mb-3">
+			<div class="row justify-content-center mb-2">
 				<div class="col-md-6">
-					<h3 class="mt-3">Boodschappenlijst</h3>
-					<table class="table-borderless table-sm ">
-						<tbody>
-							<tr th:each="shopping : ${shoppingList}">
-								<td th:text="${#strings.replace(shopping.getAmount(),'.0','')}">
-								</td>
-								<td
-									th:text="(${shopping.getAmount() >= 2} ? ${shopping.getMeasureUnit().getPluralDisplayName()}
-										 : ${shopping.getMeasureUnit().getDisplayName()})">
-								</td>
-								<td
-									th:text="(${shopping.getAmount() >= 2} ? ${shopping.getName().getPluralName()}
-										 : ${shopping.getName().getName()})">
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<h3 class="mt-3 ml-4">Boodschappenlijst</h3>
+					<ul class="shoppinglist m-0" th:each="shopping : ${shoppingList}">
+						<li class="shoppingitem" th:text="${shopping.getAsShoppingLine()}"></li>
+					</ul>
 				</div>
 				<div class="col-md-6">
-					<h3 class="mt-3">Voorraad check</h3>
-					<table class="table-borderless table-sm">
-						<tbody>
-							<tr th:each="shopping : ${stockList}">
-								<td th:text="${#strings.replace(shopping.getAmount(),'.0','')}">
-								</td>
-								<td
-									th:text="(${shopping.getAmount() >= 2} ? ${shopping.getMeasureUnit().getPluralDisplayName()}
-										 : ${shopping.getMeasureUnit().getDisplayName()})">
-								</td>
-								<td
-									th:text="(${shopping.getAmount() >= 2} ? ${shopping.getName().getPluralName()}
-										 : ${shopping.getName().getName()})">
-								</td>
-							</tr>
-						</tbody>
-					</table>
+					<h3 class="mt-3 ml-4">Voorraad check</h3>
+					<ul class="shoppinglist m-0" th:each="shopping : ${stockList}">
+						<li class="shoppingitem" th:text="${shopping.getAsShoppingLine()}"></li>
+					</ul>
 				</div>
 			</div>
-		</div>
-	</div>
-	<!-- /#content-wrapper -->
-	</div>
-	<!-- /#wrapper -->
+		</div>	<!-- /#content-wrapper -->
+	</div>	<!-- /#wrapper -->
 	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
 	<script th:src="@{/js/navigation.js}"></script>
 </body>

@@ -1,6 +1,5 @@
 package nl.cookplanner.services;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,6 +25,8 @@ public interface PlanBoardService {
 	List<Planning> getPlannings();
 	
 	List<Ingredient> getShoppingList(boolean stock);
+	
+	List<Ingredient> getShoppingListIngredients(boolean stock);
 
 	void updateNewPlanDates(List<UpdatePlanDates> newPlanDates);
 }

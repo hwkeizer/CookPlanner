@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="fragments/header.html :: header">
 <title id="pageTitle">Lijst met recepten</title>
 </head>
-
 <body>
 	<div th:replace="fragments/banner.html :: banner"></div>
 	<div id="wrapper">
 		<div th:replace="fragments/navigation.html :: main-nav"></div>
-		<div id="content-wrapper" class="container">
+		<div id="content-wrapper" class="container-sm">
 			<div class="row pull-right">
 				<a class="btn btn-success bg-success m-2 " th:href="@{/recipe/create}" role="button">Recept toevoegen</a> 
 			</div>

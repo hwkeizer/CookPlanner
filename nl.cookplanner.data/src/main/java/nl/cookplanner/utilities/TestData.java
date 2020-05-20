@@ -1,11 +1,18 @@
 package nl.cookplanner.utilities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import lombok.extern.slf4j.Slf4j;
+import nl.cookplanner.model.Ingredient;
+import nl.cookplanner.model.IngredientName;
+import nl.cookplanner.model.MeasureUnit;
+import nl.cookplanner.model.Planning;
 import nl.cookplanner.model.Recipe;
 import nl.cookplanner.model.RecipeType;
 
+@Slf4j
 public class TestData {
 	
 	public static List<Recipe> getUnorderedRecipeList() {
@@ -26,13 +33,66 @@ public class TestData {
 		recipeList.add(getRecipe(4L, "Hoofdgerecht", RecipeType.HOOFDGERECHT));
 		recipeList.add(getRecipe(2L, "Nagerecht", RecipeType.NAGERECHT));
 		return recipeList;
-		
 	}
 	
-	private static Recipe getRecipe(Long id, String name, RecipeType recipeType) {
+	public static List<Planning> getPlanningListWithRecipesWithIngredients() {
+		IngredientName potato = new IngredientName("potato", "potatoes");
+		potato.setStock(false);
+		IngredientName tomato = new IngredientName("tomato", "tomatoes");
+		tomato.setStock(false);
+		MeasureUnit gram = new MeasureUnit("gram", "gram");
+		MeasureUnit kilogram = new MeasureUnit("kilogram", "kilogram");
+		
+		Recipe firstRecipe = getRecipe(1L, "First Recipe", RecipeType.HOOFDGERECHT);
+		firstRecipe.addIngredient(getIngredient(1L, potato, gram, 300f));
+		firstRecipe.addIngredient(getIngredient(2L, tomato, gram, 300f));
+		
+		Recipe secondRecipe = getRecipe(2L, "Second Recipe", RecipeType.VOORGERECHT);
+		secondRecipe.addIngredient(getIngredient(3L, potato, gram, 300f));
+		secondRecipe.addIngredient(getIngredient(4L, tomato, kilogram, 0.3f));
+		
+		List<Planning> planningList = new ArrayList<>();
+		planningList.add(getPlanning(1L, 0, firstRecipe, true));
+		planningList.add(getPlanning(2L,  1, secondRecipe, true));
+
+		return planningList;
+	}
+	
+	public static List<Ingredient> getExpectedShoppingList() {
+		IngredientName potato = new IngredientName("potato", "potatoes");
+		potato.setStock(false);
+		IngredientName tomato = new IngredientName("tomato", "tomatoes");
+		tomato.setStock(false);
+		MeasureUnit gram = new MeasureUnit("gram", "gram");
+		MeasureUnit kilogram = new MeasureUnit("kilogram", "kilogram");
+		
+		List<Ingredient> shoppingList = new ArrayList<>();
+		shoppingList.add(getIngredient(null, tomato, gram, 300f));
+		shoppingList.add(getIngredient(null, potato, gram, 600f));
+		shoppingList.add(getIngredient(null, tomato, kilogram, 0.3f));
+		return shoppingList;
+	}
+	
+	public static Planning getPlanning(Long id, int diffDays, Recipe recipe, boolean onShoppingList) {
+		Planning planning = new Planning(LocalDate.now().plusDays(diffDays), recipe, onShoppingList);
+		planning.setId(id);
+		return planning;
+	}
+	
+	public static Recipe getRecipe(Long id, String name, RecipeType recipeType) {
 		Recipe recipe = new Recipe(name);
 		recipe.setId(id);
 		recipe.setRecipeType(recipeType);
+		recipe.setServings(2);
 		return recipe;
+	}
+	
+	public static Ingredient getIngredient(Long id, IngredientName ingredientname, MeasureUnit measureUnit, Float amount) {
+		Ingredient ingredient = new Ingredient();
+		ingredient.setId(id);
+		ingredient.setName(ingredientname);
+		ingredient.setMeasureUnit(measureUnit);
+		ingredient.setAmount(amount);
+		return ingredient;
 	}
 }
