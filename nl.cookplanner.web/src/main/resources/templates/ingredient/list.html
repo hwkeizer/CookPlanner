@@ -1,84 +1,71 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="fragments/header.html :: header">
 <title id="pageTitle">Lijst met ingrediënten</title>
 </head>
-
 <body>
-
 	<div th:replace="fragments/banner.html :: banner"></div>
-
-	<div id="wrapper">
-
-		<div th:replace="fragments/navigation.html :: main-nav"></div>
-
-		<div id="content-wrapper" class="container mt-5">
-
-
+	<div th:replace="fragments/navigation.html :: main-nav"></div>
+	<section class="d-flex flex-column justify-content-center m-4">
+		<div class="row justify-content-center mb-3">
 			<div class="row justify-content-center">
-				<a class="btn btn-success bg-success m-2" th:href="@{'/recipe/' + ${recipeId} + '/show'}" role="button">Terug naar recept</a> 
+				<a class="btn btn-success bg-success m-2"
+					th:href="@{'/recipe/' + ${recipeId} + '/show'}" role="button">Terug
+					naar recept</a>
 			</div>
+		</div>
+		<h1 class="mb-5 pageheader">Ingrediënten</h1>
+		<div class="float-right">
+			<a class="btn btn-success bg-success mb-2"
+				th:href="@{'/ingredient/create/' + ${recipeId}}" role="button">Ingrediënt
+				toevoegen</a>
+		</div>
 
-			<h1 class="mb-5 pageheader">Ingrediënten</h1>
-			<div class="float-right">
-				<a class="btn btn-success bg-success mb-2" th:href="@{'/ingredient/create/' + ${recipeId}}" role="button">Ingrediënt toevoegen</a>
-			</div>
-
-			<table id="ingredientList" class="table-warning table-bordered">
-				<thead>
-					<tr>
-						<th hidden=true>Id</th>
-						<th>Hoeveelheid</th>
-						<th>Maateenheid</th>
-						<th>Naam</th>
-						<th>Voorraad</th>
-						<!-- Removed due to bug in update
+		<table id="ingredientList" class="table table-striped">
+			<thead>
+				<tr>
+					<th hidden=true>Id</th>
+					<th>Hoeveelheid</th>
+					<th>Maateenheid</th>
+					<th>Naam</th>
+					<th>Voorraad</th>
+					<!-- Removed due to bug in update
 						<th>Wijzigen</th>
 						 -->
-						<th>Verwijderen</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="ingredient : ${ingredientList}">
-						<td 
-							hidden=true th:text="${ingredient.getId()}"></td>
-						<td 
-							th:text="${#strings.replace(ingredient.getAmount(),'.0','')}">
-						</td>
-						<td
-							th:text="(${ingredient.getAmount() >= 2} ? ${ingredient.getMeasureUnit().getPluralDisplayName()}
+					<th>Verwijderen</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="ingredient : ${ingredientList}">
+					<td hidden=true th:text="${ingredient.getId()}"></td>
+					<td th:text="${#strings.replace(ingredient.getAmount(),'.0','')}">
+					</td>
+					<td
+						th:text="(${ingredient.getAmount() >= 2} ? ${ingredient.getMeasureUnit().getPluralDisplayName()}
 										 : ${ingredient.getMeasureUnit().getDisplayName()})">
-						</td>
-						<td
-							th:text="(${ingredient.getAmount() >= 2} ? ${ingredient.getName().pluralName}
+					</td>
+					<td
+						th:text="(${ingredient.getAmount() >= 2} ? ${ingredient.getName().pluralName}
 										 : ${ingredient.getName().getName()})">
-						</td>
-						<td class="text-center"><input type="checkbox"
-							th:checked="${ingredient.getName().isStock()}"
-							disabled="disabled">
-						</td>
-						<!-- Removed due to bug in update
+					</td>
+					<td class="text-center"><input type="checkbox"
+						th:checked="${ingredient.getName().isStock()}" disabled="disabled">
+					</td>
+					<!-- Removed due to bug in update
 						<td class="text-center"><a
 							th:href="@{'/ingredient/' + ${ingredient.id} + '/update/' + ${recipeId}}"> <img
 							th:src="@{/images/edit-icon.png}" />
 							</a>
 						</td>
 						 -->
-						<td class="text-center"><a
-							th:href="@{'/ingredient/' + ${ingredient.id} + '/delete/' + ${recipeId}}"> <img
-							th:src="@{/images/delete-icon.png}" />
-							</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-
-		</div>
-		<!-- /#content-wrapper -->
-
-	</div>
-	<!-- /#wrapper -->
+					<td class="text-center"><a
+						th:href="@{'/ingredient/' + ${ingredient.id} + '/delete/' + ${recipeId}}">
+							<img th:src="@{/images/delete-icon.png}" />
+					</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
 	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
 	<script th:src="@{/js/ingredient.js}"></script>
 	<script th:src="@{/js/navigation.js}"></script>

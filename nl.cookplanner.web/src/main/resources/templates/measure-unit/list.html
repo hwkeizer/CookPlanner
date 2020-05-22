@@ -1,43 +1,39 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="fragments/header.html :: header">
 <title id="pageTitle">Lijst met maateenheden</title>
 </head>
 <body>
 	<div th:replace="fragments/banner.html :: banner"></div>
-	<div id="wrapper">
-		<div th:replace="fragments/navigation.html :: main-nav"></div>
-		<div id="content-wrapper" class="container">
-			<div class="row pull-right">
-				<a class="btn btn-success bg-success m-2 " th:href="@{/measure-unit/create}" role="button">Maateenheid toevoegen</a> 
-			</div>
-			<h1 class="pageheader">Maateenheden</h1>
-			<table id="measureUnitList"
-				class="table-warning table-bordered">
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Naam</th>
-						<th>Meervoud</th>
-						<th>Verwijderen</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="measureUnit : ${measureUnitList}" >
-						<td th:text="${measureUnit.getId()}"></td>
-						<td th:text="${measureUnit.getName()}"></td>
-						<td th:text="${measureUnit.getPluralName()}"></td>
-						<td class="text-center"><a
-							th:href="@{'/measure-unit/' + ${measureUnit.id} + '/delete'}"> <img
-							th:src="@{/images/delete-icon.png}" />
-							</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>	<!-- /#content-wrapper -->
-	</div>	<!-- /#wrapper -->
+	<div th:replace="fragments/navigation.html :: main-nav"></div>
+	<section class="d-flex flex-column justify-content-center m-4">
+		<div class="row justify-content-center mb-3">
+			<a class="btn btn-success bg-success m-2 "
+				th:href="@{/measure-unit/create}" role="button">Maateenheid
+				toevoegen</a>
+		</div>
+		<table id="measureUnitList" class="table table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Naam</th>
+					<th>Meervoud</th>
+					<th>Verwijderen</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="measureUnit : ${measureUnitList}">
+					<td th:text="${measureUnit.getId()}"></td>
+					<td th:text="${measureUnit.getName()}"></td>
+					<td th:text="${measureUnit.getPluralName()}"></td>
+					<td class="text-center"><a
+						th:href="@{'/measure-unit/' + ${measureUnit.id} + '/delete'}">
+							<img th:src="@{/images/delete-icon.png}" />
+					</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
 	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
 	<script th:src="@{/js/measureUnit.js}"></script>
 	<script th:src="@{/js/navigation.js}"></script>

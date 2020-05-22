@@ -4,15 +4,8 @@
 <title id="pageTitle">Lijst met recepten</title>
 </head>
 <body>
-	<div th:replace="fragments/banner.html :: banner"></div>
-	<div th:replace="fragments/navigation.html :: main-nav"></div>
+<div th:replace="fragments/navigation.html :: main-nav"></div>
 	<section class="d-flex flex-column justify-content-center m-4">
-		<div class="row justify-content-center mb-3">
-			<a class="btn btn-success bg-success m-2 "
-					th:href="@{/recipe/create}" role="button">Recept
-					toevoegen
-			</a>
-		</div>
 		<table id="recipeList" class="table table-striped" style="width:100%" >
 			<thead>
 				<tr>

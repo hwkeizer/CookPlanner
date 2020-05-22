@@ -1,20 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="fragments/header.html :: header">
 <title id="pageTitle">Planningsoverzicht</title>
 </head>
-
 <body>
-
 	<div th:replace="fragments/banner.html :: banner"></div>
-
-	<div id="wrapper">
-
-		<div th:replace="fragments/navigation.html :: main-nav"></div>
-
-		<div id="content-wrapper" class="container mt-5">
-
+	<div th:replace="fragments/navigation.html :: main-nav"></div>
+		<section class="d-flex flex-column justify-content-center m-4">
 			<div class="row justify-content-center mb-3">
 				<a class="btn btn-success bg-success m-2" th:href="@{/home}"
 					role="button">Naar receptoverzicht</a>
@@ -26,8 +18,7 @@
 					th:href="@{/planning/shopping}" role="button">Boodschappenlijst
 					genereren</a>
 			</div>
-			<div id="result"></div>
-			<table id="planninglist" class="display">
+			<table id="planninglist" class="mt-5 table table-striped" style="width:100%">
 				<thead>
 					<tr>
 						<th>datum</th>
@@ -70,13 +61,10 @@
 						</a></td>
 				</tbody>
 			</table>
-		</div>
+		</section>
 
-	</div>
-	<!-- /#content-wrapper -->
 
-	</div>
-	<!-- /#wrapper -->
+
 
 	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
 	<script th:src="@{/js/navigation.js}"></script>

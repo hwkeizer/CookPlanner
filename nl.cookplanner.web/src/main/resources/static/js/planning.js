@@ -6,6 +6,7 @@ function showTable() {
 	var table = $('#planninglist').DataTable({
 		"paging":   false,
         "info":     false,
+        "searching":false,
         rowReorder: {
             
         }

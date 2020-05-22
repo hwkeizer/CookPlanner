@@ -5,40 +5,39 @@
 </head>
 <body>
 	<div th:replace="fragments/banner.html :: banner"></div>
-	<div id="wrapper">
-		<div th:replace="fragments/navigation.html :: main-nav"></div>
-		<div id="content-wrapper" class="container">
-			<div class="row pull-right">
-				<a class="btn btn-success bg-success m-2 " th:href="@{/ingredient-name/create}" role="button">Ingrediënt toevoegen</a> 
-			</div>
-			<h1 class="pageheader">Ingrediënten</h1>
-			<table id="ingredientNameList"
-				class="table-warning table-bordered">
-				<thead>
-					<tr>
-						<th>Id</th>
-						<th>Naam</th>
-						<th>Meervoud</th>
-						<th>Voorraad</th>
-						<th>Verwijderen</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="ingredientName : ${ingredientNameList}" >
-						<td th:text="${ingredientName.getId()}"></td>
-						<td th:text="${ingredientName.getName()}"></td>
-						<td th:text="${ingredientName.getPluralName()}"></td>
-						<td class="text-center"><input type="checkbox" th:checked="${ingredientName.isStock()}" disabled="disabled"></td>
-						<td class="text-center"><a
-							th:href="@{'/ingredient-name/' + ${ingredientName.id} + '/delete'}"> <img
-							th:src="@{/images/delete-icon.png}" />
-							</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div><!-- /#content-wrapper -->
-	</div><!-- /#wrapper -->
+	<div th:replace="fragments/navigation.html :: main-nav"></div>
+	<section class="d-flex flex-column justify-content-center m-4">
+		<div class="row justify-content-center mb-3">
+			<a class="btn btn-success bg-success m-2 "
+				th:href="@{/ingredient-name/create}" role="button">Ingrediënt
+				toevoegen
+			</a>
+		</div>
+		<table id="ingredientNameList" class="table table-striped">
+			<thead>
+				<tr>
+					<th>Id</th>
+					<th>Naam</th>
+					<th>Meervoud</th>
+					<th>Voorraad</th>
+					<th>Verwijderen</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:each="ingredientName : ${ingredientNameList}">
+					<td th:text="${ingredientName.getId()}"></td>
+					<td th:text="${ingredientName.getName()}"></td>
+					<td th:text="${ingredientName.getPluralName()}"></td>
+					<td class="text-center"><input type="checkbox"
+						th:checked="${ingredientName.isStock()}" disabled="disabled"></td>
+					<td class="text-center"><a
+						th:href="@{'/ingredient-name/' + ${ingredientName.id} + '/delete'}">
+							<img th:src="@{/images/delete-icon.png}" />
+					</a></td>
+				</tr>
+			</tbody>
+		</table>
+	</section>
 	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
 	<script th:src="@{/js/ingredientName.js}"></script>
 	<script th:src="@{/js/navigation.js}"></script>

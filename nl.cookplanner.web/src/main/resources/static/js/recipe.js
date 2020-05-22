@@ -38,8 +38,9 @@ function showRecipeTable() {
 				"last": "Laatste",
 				"next": "Volgende",
 				"previous": "Vorige"
-			}			
-		}
+			}
+		},
+		"order": [[ 1, "asc" ]]
 
 
 	});

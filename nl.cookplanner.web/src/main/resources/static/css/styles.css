@@ -1,116 +1,7 @@
-
-#wrapper {
-  display: flex;
-}
-
-#wrapper #content-wrapper {
-  background-color: #fff7e6;
-  width: 100%;
-  overflow-x: hidden;
-}
-
-#wrapper #content-wrapper #content {
-  flex: 1 0 auto;
-}
-
-#topbanner {
-	background-image: url("../images/header.png");
-	width: 110%;
-	height: 111px;
-}
-
-.title {
-	color:#b36b00;
-}
-
-.pageheader {
-	color:#ffaa00;
-	font-weight: 900;
-}
-
-table.dataTable tbody td {
-	background-color: #ffeecc;
-}
-
-table.dataTable.display tbody tr.odd .sorting_1 {
-	background-color: #ffeebb;
-}
-
-table.dataTable.display tbody tr.even .sorting_1 {
-	background-color: #ffeebb;
-}
-
-thead {
-	background-color: #ffe6b3;
-}
-
 body {
     margin:0px;
     padding:0px;
-    background:#fff7e6;
-}
-.main_navbar {
-    min-height:100vh;
-    width:225px;
-    background: #fff7e6;/** #ffcc66**/;
-}
-.main_navbar:after {
-    content: '';
-    background-color: #ffcc66;
-    position: absolute;
-    top: 0;
-    z-index: -1;
-    height: 100%;
-    width: 58px;
-}
-.main_navbar ul {
-    list-style:none;
-    padding-left:58px;
-}
-.main_navbar ul li {
-    padding:15px;
-}
-.main_navbar ul li a {
-    color:#444;
-    display:block;
-}
-.main_navbar ul li i {
-    float:left;
-    color:grey;
-    margin-left:-58px;
-    font-size:24px;
-    padding-left:7px;
-}
-.main_navbar ul li:hover {
-    background:#cc8800;
-}
-.main_navbar ul li a:hover {
-    color:#444;
-    text-decoration:none;
-}
-.main_navbar ul li:hover i {
-    color:#444;
-}
-.main_navbar ul li.active {
-    background:#cc8800;
-}
-.main_navbar ul li.active i {
-    color:#444;
-}
-.main_navbar ul li.active:hover {
-    background:#cc8800;
-}
-.main_navbar ul li.active:hover i {
-    color:#444;
-}
-
-.main {
-    float:right;
-    color:#fff;
-    display:block;
-    width:100%;
-    background:red;
-    min-height:100vh;
+    background-color: rgba(86,61,124,.15);
 }
 
 .sized-checkbox {
@@ -121,4 +12,21 @@ body {
 	list-style-type: none;
 }
 
+tbody {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+	border-style: solid;
+	border-width: 2px;
+	border-color: rgb(230,230,230);
+}
 
+table.dataTable {
+	border-collapse: collapse;
+}
+
+nav {
+	box-shadow: 0 4px 8px 0 rgba(100, 100, 100, 0.2), 0 6px 20px 0 rgba(100, 100, 100, 0.19);
+}
+
+.btn {
+	line-height: 1rem;
+}
