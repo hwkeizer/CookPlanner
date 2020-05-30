@@ -45,6 +45,17 @@ public class PlanBoardServiceImpl implements PlanBoardService {
 
 	@Override
 	public void deletePlanningById(Long planningId) {
+		Optional<Planning> optionalPlanning = planningRepository.findById(planningId);
+		if (optionalPlanning.isPresent()) {
+			Planning planning = optionalPlanning.get();
+			if (planning.getDate().isBefore(LocalDate.now()) || planning.getDate().equals(LocalDate.now())) {
+				for (Recipe recipe : planning.getRecipes()) {
+					recipe.setLastServed(planning.getDate());
+					recipe.setTimesServed(recipe.getTimesServed() != null ? recipe.getTimesServed()+ 1 : 1);
+				}
+			}
+			
+		}
 		planningRepository.deleteById(planningId);
 		
 	}

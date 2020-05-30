@@ -1,5 +1,6 @@
 package nl.cookplanner.model;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +19,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -58,6 +61,10 @@ public class Recipe {
 	private Integer preparationTime;
 	private Integer cookTime;
 	private Integer servings;
+	private Integer timesServed = 0;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private LocalDate lastServed;
 
 	@Lob
 	private String preparations;

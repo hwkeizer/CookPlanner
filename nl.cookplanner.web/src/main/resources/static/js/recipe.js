@@ -15,12 +15,14 @@ function ConfirmDelete(recipeName, recipeId) {
 function showRecipeTable() {
 	var table = $('#recipeList').DataTable({
 		"aoColumns": [
-		    { "bSearchable": false },
-		      null,
-		      null,
-		      null,
-		      null,
-		      { "bSearchable": false }
+		    { "bSearchable": false }, // Id
+		      null, // Name
+		      null, // Type
+		      null, // Tags
+		      null, // Rating
+		      null, // LastServed
+		      null, // TimesServed
+		      { "bSearchable": false } // Plan
 		],
 		"columnDefs": [
 			{ "width": "8%", "targets": 4 }

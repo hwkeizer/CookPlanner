@@ -21,6 +21,8 @@
 					<th>Type</th>
 					<th>Kenmerken</th>
 					<th>Waardering</th>
+					<th>Laatst gegeten</th>
+					<th>Aantal keer gegeten</th>
 					<th>Plan</th>
 				</tr>
 			</thead>
@@ -31,6 +33,8 @@
 					<td th:text="${recipe.recipeType.getDisplayName()}"></td>
 					<td th:text="${recipe.getTagString()}"></td>
 					<td class="text-center" th:text="${recipe.getRating()}"></td>
+					<td th:text="${recipe.getLastServed()}"></td>
+					<td th:text="${recipe.getTimesServed()}"></td>
 					<td>
 						<form th:action="@{'/planning/' + ${recipe.id} + '/new'}"
 							method="post">
