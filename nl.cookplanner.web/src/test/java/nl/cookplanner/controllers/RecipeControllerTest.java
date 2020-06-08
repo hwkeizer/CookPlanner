@@ -21,6 +21,7 @@ import nl.cookplanner.exception.NotFoundException;
 import nl.cookplanner.model.Recipe;
 import nl.cookplanner.repositories.RecipeRepository;
 import nl.cookplanner.repositories.TagRepository;
+import nl.cookplanner.services.IngredientNameService;
 import nl.cookplanner.services.IngredientService;
 import nl.cookplanner.services.RecipeService;
 
@@ -38,6 +39,9 @@ public class RecipeControllerTest {
 	@Mock
 	IngredientService ingredientService;
 	
+	@Mock
+	IngredientNameService ingredientNameService;
+	
 
 	RecipeController recipeController;
 	MockMvc mockMvc;
@@ -45,7 +49,7 @@ public class RecipeControllerTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		recipeController = new RecipeController(recipeRepository, recipeService, tagRepository, ingredientService);
+		recipeController = new RecipeController(recipeRepository, recipeService, tagRepository, ingredientService, ingredientNameService);
 		mockMvc = MockMvcBuilders.standaloneSetup(recipeController)
 				.setControllerAdvice(new ControllerExceptionHandler())
 				.build();

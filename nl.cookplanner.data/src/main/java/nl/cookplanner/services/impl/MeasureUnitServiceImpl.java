@@ -6,7 +6,6 @@ import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
-import lombok.extern.slf4j.Slf4j;
 import nl.cookplanner.model.MeasureUnit;
 import nl.cookplanner.repositories.MeasureUnitRepository;
 import nl.cookplanner.services.MeasureUnitService;

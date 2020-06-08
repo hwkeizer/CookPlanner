@@ -9,7 +9,6 @@ import lombok.extern.slf4j.Slf4j;
 import nl.cookplanner.model.Ingredient;
 import nl.cookplanner.model.Recipe;
 import nl.cookplanner.repositories.IngredientRepository;
-import nl.cookplanner.repositories.RecipeRepository;
 import nl.cookplanner.services.IngredientService;
 import nl.cookplanner.services.RecipeService;
 

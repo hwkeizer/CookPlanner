@@ -1,6 +1,5 @@
 package nl.cookplanner;
 
-import java.time.LocalDate;
 import java.util.Locale;
 
 import org.springframework.boot.SpringApplication;

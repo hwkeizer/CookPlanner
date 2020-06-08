@@ -1,8 +1,8 @@
 package nl.cookplanner.controllers;
 
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
+import java.util.Set;
 
 import javax.validation.Valid;
 
@@ -15,10 +15,12 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.extern.slf4j.Slf4j;
+import nl.cookplanner.model.IngredientName;
 import nl.cookplanner.model.Recipe;
 import nl.cookplanner.model.Tag;
 import nl.cookplanner.repositories.RecipeRepository;
 import nl.cookplanner.repositories.TagRepository;
+import nl.cookplanner.services.IngredientNameService;
 import nl.cookplanner.services.IngredientService;
 import nl.cookplanner.services.RecipeService;
 
@@ -30,13 +32,17 @@ public class RecipeController extends AbstractController {
 	private final RecipeService recipeService;
 	private final TagRepository tagRepository;
 	private final IngredientService ingredientService;
+	private final IngredientNameService ingredientNameService;
 	
+
+
 	public RecipeController(RecipeRepository recipeRepository, RecipeService recipeService, TagRepository tagRepository,
-			IngredientService ingredientService) {
+			IngredientService ingredientService, IngredientNameService ingredientNameService) {
 		this.recipeRepository = recipeRepository;
 		this.recipeService = recipeService;
 		this.tagRepository = tagRepository;
 		this.ingredientService = ingredientService;
+		this.ingredientNameService = ingredientNameService;
 	}
 
 	@ModelAttribute("allTags")
@@ -49,6 +55,20 @@ public class RecipeController extends AbstractController {
 	public String showRecipeList(Model model) {
 		List<Recipe> recipeList = recipeRepository.findAll();
 		model.addAttribute("recipeList", recipeList);
+		model.addAttribute("ingredientNameList", ingredientNameService.findAllIngredientNames());
+		model.addAttribute("ingredientName", new IngredientName());
+		model.addAttribute("filter", false);
+		return "recipe/list";
+	}
+	
+	@PostMapping("recipe/filtered-list")
+	public String showFilteredRecipeList(@ModelAttribute("ingredientName") IngredientName ingredientName, Model model) {
+		
+		Set<Recipe> recipeList = recipeService.findAllRecipesWithIngredientName(ingredientName.getId());
+		model.addAttribute("recipeList", recipeList);
+		model.addAttribute("ingredientNameList", ingredientNameService.findAllIngredientNames());
+		model.addAttribute("filter", true);
+		model.addAttribute("ingredientName", ingredientName);
 		return "recipe/list";
 	}
 	

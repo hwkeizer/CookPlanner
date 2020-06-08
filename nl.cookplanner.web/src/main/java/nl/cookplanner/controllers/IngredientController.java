@@ -2,19 +2,16 @@ package nl.cookplanner.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import lombok.extern.slf4j.Slf4j;
 import nl.cookplanner.model.Ingredient;
 import nl.cookplanner.model.IngredientName;
 import nl.cookplanner.model.MeasureUnit;
 import nl.cookplanner.model.Recipe;
-import nl.cookplanner.repositories.RecipeRepository;
 import nl.cookplanner.services.IngredientNameService;
 import nl.cookplanner.services.IngredientService;
 import nl.cookplanner.services.MeasureUnitService;
@@ -22,7 +19,6 @@ import nl.cookplanner.services.RecipeService;
 
 @Controller
 @RequestMapping("ingredient")
-@Slf4j
 public class IngredientController extends AbstractController {
 
 	private final RecipeService recipeService;

@@ -3,6 +3,7 @@ package nl.cookplanner.services.impl;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,6 @@ import nl.cookplanner.repositories.RecipeRepository;
 import nl.cookplanner.services.RecipeService;
 
 @Service
-@Slf4j
 public class RecipeServiceImpl implements RecipeService {
 
 	private final RecipeRepository recipeRepository;
@@ -24,11 +24,16 @@ public class RecipeServiceImpl implements RecipeService {
 	
 	@Override
 	public Set<Recipe> findAllRecipes() {
-	
-		Set<Recipe> recipeSet = new HashSet<>();
-		recipeRepository.findAll().iterator().forEachRemaining(recipeSet::add);
-		return recipeSet;
+		return recipeRepository.findAll().stream().collect(Collectors.toCollection(HashSet::new));
 	}
+	
+	@Override
+	public Set<Recipe> findAllRecipesWithIngredientName(Long id) {
+		return recipeRepository.findAll().stream()
+				.filter(r -> r.hasIngredientWithName(id))
+				.collect(Collectors.toCollection(HashSet::new));
+	}
+
 
 
 	@Override

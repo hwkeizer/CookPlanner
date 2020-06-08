@@ -94,6 +94,10 @@ public class Recipe {
 		ingredients.remove(ingredient);
 	}
 	
+	public boolean hasIngredientWithName(Long id) {
+		return ingredients.stream().anyMatch(i -> i.getName().getId().equals(id));
+	}
+	
 	public String getTagString() {
 		String tagString = "";
 		for (Tag tag : tags) {

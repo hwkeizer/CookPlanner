@@ -8,6 +8,8 @@ public interface RecipeService {
 
 	public Set<Recipe> findAllRecipes();
 	
+	public Set<Recipe> findAllRecipesWithIngredientName(Long id);
+	
 	public Recipe findRecipeById(Long id);
 	
 	public void deleteRecipeById(Long id);

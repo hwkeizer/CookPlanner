@@ -13,6 +13,23 @@
 					toevoegen
 			</a>
 		</div>
+		<form th:object="${ingredientName}"
+			th:action="@{recipe/filtered-list}" method="post">
+			<div class="form-group form-row">
+				<label class="col-1 col-form-label">Filter op ingredient:</label>
+				<div class="col-2">
+					<select class="form-control combobox" name="id">
+						<option></option>
+						<option th:each="ingredientNameEach : ${ingredientNameList}"
+							th:value="${ingredientNameEach.id}"
+							th:selected="${ingredientNameEach.id.equals(ingredientName.id)}"
+							th:text="${ingredientNameEach.name}">Naam</option>
+					</select>
+				</div>
+				<button th:if="not ${filter}" type="submit" class="btn btn-success bg-success m-2">Filter aan</button>
+				<a th:if="${filter}" class="btn btn-warning bg-warning m-2" th:href="@{/home}">Filter uit</a>
+			</div>
+		</form>
 		<table id="recipeList" class="table table-striped" style="width:100%" >
 			<thead>
 				<tr>

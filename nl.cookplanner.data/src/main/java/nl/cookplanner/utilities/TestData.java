@@ -2,7 +2,9 @@ package nl.cookplanner.utilities;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import lombok.extern.slf4j.Slf4j;
 import nl.cookplanner.model.Ingredient;
@@ -12,7 +14,6 @@ import nl.cookplanner.model.Planning;
 import nl.cookplanner.model.Recipe;
 import nl.cookplanner.model.RecipeType;
 
-@Slf4j
 public class TestData {
 	
 	public static List<Recipe> getUnorderedRecipeList() {
@@ -94,5 +95,53 @@ public class TestData {
 		ingredient.setMeasureUnit(measureUnit);
 		ingredient.setAmount(amount);
 		return ingredient;
+	}
+	
+	// Generate data for tests
+	public static List<Recipe> getRecipeListWithIngredients(int numberOfRecipes) {
+		List<Recipe> recipes = new ArrayList<>();
+		for (int i = 0; i < numberOfRecipes; i++) {
+			Recipe recipe = new Recipe();
+			recipe.setId((long)i);
+			recipe.setIngredients(getSomeIngredientsForRecipeId(i));
+			recipes.add(recipe);
+		}
+		return recipes;
+	}
+	
+	public static Set<Ingredient> getSomeIngredientsForRecipeId(int id) {
+		Set<Ingredient> ingredients = new HashSet<>();
+		int start = 10*id;
+		for (int i = start; i<start + 4; i++) {
+			ingredients.add(createIngredient(i));
+		}
+		return ingredients;
+	}
+	
+	public static Ingredient createIngredient(int id, IngredientName ingredientName, Float amount, MeasureUnit measureUnit) {
+		Ingredient ingredient = new Ingredient();
+		ingredient.setId((long)id);
+		ingredient.setName(ingredientName);
+		ingredient.setAmount(amount);
+		ingredient.setMeasureUnit(measureUnit);
+		return ingredient;
+	}
+	
+	private static Ingredient createIngredient(int id) {
+		Ingredient ingredient = new Ingredient(createIngredientName(id), (float)id, createMeasureUnit(id));
+		ingredient.setId((long)id);
+		return ingredient;
+	}
+	
+	public static IngredientName createIngredientName(int id) {
+		IngredientName ingredientName = new IngredientName("Ingredient" + id, "Ingredients" + id);
+		ingredientName.setId((long)id);
+		return ingredientName;
+	}
+	
+	public static MeasureUnit createMeasureUnit(int id) {
+		MeasureUnit measureUnit = new MeasureUnit("MeasureUnit" + id, "MeasureUnits" + id);
+		measureUnit.setId((long)id);
+		return measureUnit;
 	}
 }
