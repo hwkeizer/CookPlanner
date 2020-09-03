@@ -28,7 +28,6 @@ public class IngredientServiceImpl implements IngredientService {
 	@Override
 	public Set<Ingredient> findAllIngredientsForRecipe(Long recipeId) {
 		Recipe recipe = recipeService.findRecipeById(recipeId);
-		log.debug("Ingredientlist for recipe {}:  {}", recipeId, recipe.getIngredients());
 		return recipe.getIngredients();
 	}
 

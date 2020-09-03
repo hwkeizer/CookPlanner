@@ -2,6 +2,10 @@ let baseUrl = 'http://192.168.2.14:8080/recipe/';
 
 $(document).ready( function () {
 	showRecipeTable();
+	
+	$("#selectNewImage").on("click", function() {
+        $("input").trigger("click");
+    });
 });
 
 function ConfirmDelete(recipeName, recipeId) {
@@ -15,7 +19,8 @@ function ConfirmDelete(recipeName, recipeId) {
 function showRecipeTable() {
 	var table = $('#recipeList').DataTable({
 		"aoColumns": [
-		    { "bSearchable": false }, // Id
+			  { "bSearchable": false }, // Id
+		      { "bSearchable": false }, // Image
 		      null, // Name
 		      null, // Type
 		      null, // Tags
@@ -25,7 +30,7 @@ function showRecipeTable() {
 		      { "bSearchable": false } // Plan
 		],
 		"columnDefs": [
-			{ "width": "8%", "targets": 4 }
+			{ "width": "8%", "targets": 3 }
 		],
 		"language": {
 			"lengthMenu": "Toon _MENU_ recepten per pagina",
@@ -42,7 +47,7 @@ function showRecipeTable() {
 				"previous": "Vorige"
 			}
 		},
-		"order": [[ 1, "asc" ]]
+		"order": [[ 2, "asc" ]]
 
 
 	});

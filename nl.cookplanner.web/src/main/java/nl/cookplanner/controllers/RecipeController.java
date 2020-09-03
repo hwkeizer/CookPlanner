@@ -1,5 +1,6 @@
 package nl.cookplanner.controllers;
 
+import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -20,6 +21,7 @@ import nl.cookplanner.model.Recipe;
 import nl.cookplanner.model.Tag;
 import nl.cookplanner.repositories.RecipeRepository;
 import nl.cookplanner.repositories.TagRepository;
+import nl.cookplanner.services.ImageService;
 import nl.cookplanner.services.IngredientNameService;
 import nl.cookplanner.services.IngredientService;
 import nl.cookplanner.services.RecipeService;
@@ -33,16 +35,18 @@ public class RecipeController extends AbstractController {
 	private final TagRepository tagRepository;
 	private final IngredientService ingredientService;
 	private final IngredientNameService ingredientNameService;
-	
-
+	private final ImageService imageService;
 
 	public RecipeController(RecipeRepository recipeRepository, RecipeService recipeService, TagRepository tagRepository,
-			IngredientService ingredientService, IngredientNameService ingredientNameService) {
+			IngredientService ingredientService, IngredientNameService ingredientNameService,
+			ImageService imageService) {
+		super();
 		this.recipeRepository = recipeRepository;
 		this.recipeService = recipeService;
 		this.tagRepository = tagRepository;
 		this.ingredientService = ingredientService;
 		this.ingredientNameService = ingredientNameService;
+		this.imageService = imageService;
 	}
 
 	@ModelAttribute("allTags")
@@ -88,6 +92,23 @@ public class RecipeController extends AbstractController {
 		return "recipe/update";
 	}
 	
+	@PostMapping("recipe/update")
+	public String updateRecipe(@Valid @ModelAttribute("recipe") Recipe recipe, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			bindingResult.getAllErrors().forEach(objectError -> {
+				log.debug(objectError.toString());
+			}); 
+			return "recipe/update";
+		}
+		
+		// Ingredients  and images are updated separately and are fetched here
+		recipe.setIngredients(ingredientService.findAllIngredientsForRecipe(recipe.getId()));
+		recipe.setImage(recipeService.findRecipeById(recipe.getId()).getImage());
+
+		recipeRepository.save(recipe);
+		return "redirect:/recipe/" + recipe.getId() + "/show";
+	}
+	
 	@GetMapping("recipe/create")
 	public String getNewRecipeForm(Model model) {	
 		model.addAttribute("recipe", new Recipe());
@@ -104,21 +125,6 @@ public class RecipeController extends AbstractController {
 		}
 		Recipe savedRecipe = recipeService.createRecipe(recipe);
 		return "redirect:/recipe/" + savedRecipe.getId() + "/update";
-	}
-	
-	@PostMapping("recipe/update")
-	public String updateRecipe(@Valid @ModelAttribute("recipe") Recipe recipe, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			bindingResult.getAllErrors().forEach(objectError -> {
-				log.debug(objectError.toString());
-			});
-			return "recipe/update";
-		}
-		// Ingredients are updated separately and are fetched here
-		// TODO find better solution for this
-		recipe.setIngredients(ingredientService.findAllIngredientsForRecipe(recipe.getId()));
-		recipeRepository.save(recipe);
-		return "redirect:/recipe/" + recipe.getId() + "/show";
 	}
 	
 	// TODO make this a delete mapping

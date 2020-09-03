@@ -34,6 +34,7 @@
 			<thead>
 				<tr>
 					<th>Id</th>
+					<th></th>
 					<th>Naam</th>
 					<th>Type</th>
 					<th>Kenmerken</th>
@@ -46,6 +47,7 @@
 			<tbody>
 				<tr class="mt-2" th:each="recipe : ${recipeList}">
 					<td th:text="${recipe.getId()}"></td>
+					<td class="m-0 p-0"> <img class="rounded " th:src="@{'/image/' + ${recipe.image}}" width="45" height="45"></td>
 					<td th:text="${recipe.getName()}"></td>
 					<td th:text="${recipe.recipeType.getDisplayName()}"></td>
 					<td th:text="${recipe.getTagString()}"></td>

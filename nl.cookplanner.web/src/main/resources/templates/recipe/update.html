@@ -14,15 +14,33 @@
 		<div th:replace="fragments/navigation.html :: main-nav"></div>
 
 		<div id="content-wrapper" class="container mt-3 col-7">
+		
+		<div class="row justify-content-center mb-3">
+					<h1 class="my-5 pageheader panel-title">Wijzig recept</h1>
+				</div>
+		
+		<div class="row justify-content-center mb-3">
+			<h1 th:text="${recipe.name}" class="mb-3 pageheader"></h1>
+			<div class="col-md-2">
+				<img class="rounded mx-auto mb-3"
+					th:src="@{'/image/' + ${recipe.image}}" width=300 height=300>
+			</div>
+		</div>
+		
+		<form th:action="@{/image/upload/} + ${recipe.id}" method="post" enctype="multipart/form-data">
+			<div class="form-group form-row">
+				<label for="image" class="col-3 col-form-label">Afbeelding wijzigen</label>
+				<div class="col-5">
+					<input type="file" name="imageFile" class="form-control" accept=".png" />
+				</div>
+				<button type="submit" class="btn btn-success bg-success ">Afbeelding vervangen</button>
+			</div>
+		</form>
 
 			<form th:object="${recipe}" th:action="@{'/recipe/update'} "
 				method="post">
 
 				<input type="hidden" th:field="*{id}" />
-
-				<div class="row justify-content-center mb-3">
-					<h1 class="my-5 pageheader panel-title">Wijzig recept</h1>
-				</div>
 
 				<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
 					<p>Het formulier bevat fouten</p>
@@ -93,7 +111,7 @@
 				</div>
 				
 				<div class="form-group form-row">
-					<label for="servings" class="col-3 col-form-label">Waardering</label>
+					<label for="rating" class="col-3 col-form-label">Waardering</label>
 					<div class="col-3">
 						<input id="rating" type="text" class="form-control"
 							th:field="*{rating}" th:errorclass="has-error" />
