@@ -2,6 +2,8 @@ package nl.cookplanner.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,6 +28,14 @@ public class IngredientName {
 	
 	private boolean stock = false;
 	
+	@Enumerated(EnumType.STRING)
+	@Column(length = 20)
+	private ShopType shopType;
+	
+	@Enumerated(EnumType.STRING)
+	@Column(length = 20)
+	private IngredientType ingredientType;
+	
 	public IngredientName(String name, String pluralName) {
 		this(name, pluralName, false);
 	}
@@ -34,5 +44,7 @@ public class IngredientName {
 		this.name = name;
 		this.pluralName = pluralName;
 		this.stock = stock;
+		this.shopType = ShopType.OVERIG;
+		this.ingredientType = IngredientType.OVERIG;
 	}
 }

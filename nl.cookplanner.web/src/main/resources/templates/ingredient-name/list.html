@@ -19,6 +19,8 @@
 					<th>Id</th>
 					<th>Naam</th>
 					<th>Meervoud</th>
+					<th>Ingrediënt type</th>
+					<th>Winkel type</th>
 					<th>Voorraad</th>
 					<th>Verwijderen</th>
 				</tr>
@@ -28,6 +30,8 @@
 					<td th:text="${ingredientName.getId()}"></td>
 					<td th:text="${ingredientName.getName()}"></td>
 					<td th:text="${ingredientName.getPluralName()}"></td>
+					<td th:text="${ingredientName.ingredientType} ? ${ingredientName.ingredientType.getDisplayName()} : ''"></td>
+					<td th:text="${ingredientName.shopType} ? ${ingredientName.shopType.getDisplayName()} : ''"></td>
 					<td class="text-center"><input type="checkbox"
 						th:checked="${ingredientName.isStock()}" disabled="disabled"></td>
 					<td class="text-center"><a

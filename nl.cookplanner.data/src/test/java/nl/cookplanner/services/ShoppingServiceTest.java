@@ -1,4 +1,4 @@
-package nl.cookplanner.services.impl;
+package nl.cookplanner.services;
 
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.mockito.Mockito.when;
@@ -12,6 +12,7 @@ import org.junit.jupiter.api.Test;
 import nl.cookplanner.model.Ingredient;
 import nl.cookplanner.model.Planning;
 import nl.cookplanner.repositories.PlanningRepository;
+import nl.cookplanner.repositories.ShoppingItemRepository;
 import nl.cookplanner.services.PlanBoardService;
 import nl.cookplanner.utilities.TestData;
 
@@ -20,17 +21,20 @@ import org.mockito.MockitoAnnotations;
 
 import lombok.extern.slf4j.Slf4j;
 
-class PlanBoardServiceImplTest {
+class ShoppingServiceTest {
 	
 	@Mock
-	PlanningRepository planningRepository;
-	
 	PlanBoardService planBoardService;
+	
+	@Mock
+	ShoppingItemRepository shoppingItemRepository;
+	
+	ShoppingService shoppingService;
 	
 	@BeforeEach
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		planBoardService = new PlanBoardServiceImpl(planningRepository);
+		shoppingService = new ShoppingService(planBoardService, shoppingItemRepository);
 	}
 	
 	@Test
@@ -39,10 +43,10 @@ class PlanBoardServiceImplTest {
 		List<Planning> list = TestData.getPlanningListWithRecipesWithIngredients();
 
 		// When
-		when(planningRepository.findAll()).thenReturn(list);
+		when(planBoardService.getPlanningList()).thenReturn(list);
 
 		// Then
-		assertIterableEquals( TestData.getExpectedShoppingList(), planBoardService.getShoppingList(false),
+		assertIterableEquals( TestData.getExpectedShoppingList(), shoppingService.getShoppingListFromPlannedRecipes(),
 				"Shoppinglist should contain merged potatoes (equal measureUnits) and seperated tomatoes (no equal measureUnits)");
 	}
 
@@ -56,10 +60,10 @@ class PlanBoardServiceImplTest {
 		expectedIngredientList.addAll(list.get(1).getRecipes().get(0).getIngredients());
 
 		// When
-		when(planningRepository.findAll()).thenReturn(list);
+		when(planBoardService.getPlanningList()).thenReturn(list);
 
 		// Then
-		assertIterableEquals(expectedIngredientList, planBoardService.getShoppingListIngredients(false),
+		assertIterableEquals(expectedIngredientList, shoppingService.getShoppingListIngredients(false),
 				"Ingredientlist should contain correct amounts of tomatoes and potatoes");
 	}
 

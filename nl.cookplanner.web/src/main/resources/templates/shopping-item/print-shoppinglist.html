@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header.html :: header">
+<title id="pageTitle">Boodschappenlijst</title>
+</head>
+<body>
+	<div th:replace="fragments/banner.html :: banner"></div>
+	<div th:replace="fragments/navigation.html :: main-nav"></div>
+	<section class="d-flex flex-column justify-content-center m-4">
+		<div class="row justify-content-center mb-3">
+			<a class="btn btn-success bg-success m-2" 
+				th:href="@{/planning/overview}" 
+				role="button">Terug naar de planning</a>
+		</div>
+		
+		<div class="row mb-2">
+			<div class="col-md-3">
+				<h3 class="mt-3 ml-4">Markt</h3>
+				<table id="markt" class="table table-striped ml-3 table-sm item-hl">
+					<tbody>
+						<tr th:each="shopping : ${markt}">
+							<td hidden=true th:text="${shopping.getId()}"></td>
+							<td
+								th:text="${#strings.replace(shopping.getAmount(),'.0','')}"></td>
+							<td
+								th:text="(${shopping.getAmount() >= 2} ? ${shopping.getMeasureUnit().getPluralDisplayName()}
+										 : ${shopping.getMeasureUnit().getDisplayName()})">
+							</td>
+							<td
+								th:text="(${shopping.getAmount() >= 2} ? ${shopping.getName().pluralName}
+										 : ${shopping.getName().getName()})">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="col-md-3">
+				<h3 class="mt-3 ml-4">Eko</h3>
+				<table id="eko" class="table table-striped ml-3 table-sm item-hl">
+					<tbody>
+						<tr th:each="shopping : ${eko}">
+							<td hidden=true th:text="${shopping.getId()}"></td>
+							<td
+								th:text="${#strings.replace(shopping.getAmount(),'.0','')}"></td>
+							<td
+								th:text="(${shopping.getAmount() >= 2} ? ${shopping.getMeasureUnit().getPluralDisplayName()}
+										 : ${shopping.getMeasureUnit().getDisplayName()})">
+							</td>
+							<td
+								th:text="(${shopping.getAmount() >= 2} ? ${shopping.getName().pluralName}
+										 : ${shopping.getName().getName()})">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="col-md-3">
+				<h3 class="mt-3 ml-4">Overig</h3>
+				<table id="overig" class="table table-striped ml-3 table-sm item-hl">
+					<tbody>
+						<tr th:each="shopping : ${overig}">
+							<td hidden=true th:text="${shopping.getId()}"></td>
+							<td
+								th:text="${#strings.replace(shopping.getAmount(),'.0','')}"></td>
+							<td
+								th:text="(${shopping.getAmount() >= 2} ? ${shopping.getMeasureUnit().getPluralDisplayName()}
+										 : ${shopping.getMeasureUnit().getDisplayName()})">
+							</td>
+							<td
+								th:text="(${shopping.getAmount() >= 2} ? ${shopping.getName().pluralName}
+										 : ${shopping.getName().getName()})">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+		<div class="row mb-2">
+		
+			<div class="col-md-3">
+				<h3 class="mt-3 ml-4">DEKA groente</h3>
+				<table id="deka_groente" class="table table-striped ml-3 table-sm item-hl">
+					<tbody>
+						<tr th:each="shopping : ${deka_groente}">
+							<td hidden=true th:text="${shopping.getId()}"></td>
+							<td
+								th:text="${#strings.replace(shopping.getAmount(),'.0','')}"></td>
+							<td
+								th:text="(${shopping.getAmount() >= 2} ? ${shopping.getMeasureUnit().getPluralDisplayName()}
+										 : ${shopping.getMeasureUnit().getDisplayName()})">
+							</td>
+							<td
+								th:text="(${shopping.getAmount() >= 2} ? ${shopping.getName().pluralName}
+										 : ${shopping.getName().getName()})">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-3">
+				<h3 class="mt-3 ml-4">DEKA zuivel/vlees</h3>
+				<table id="deka_zuivel" class="table table-striped ml-3 table-sm item-hl">
+					<tbody>
+						<tr th:each="shopping : ${deka_zuivel}">
+							<td hidden=true th:text="${shopping.getId()}"></td>
+							<td
+								th:text="${#strings.replace(shopping.getAmount(),'.0','')}"></td>
+							<td
+								th:text="(${shopping.getAmount() >= 2} ? ${shopping.getMeasureUnit().getPluralDisplayName()}
+										 : ${shopping.getMeasureUnit().getDisplayName()})">
+							</td>
+							<td
+								th:text="(${shopping.getAmount() >= 2} ? ${shopping.getName().pluralName}
+										 : ${shopping.getName().getName()})">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="col-md-3">
+				<h3 class="mt-3 ml-4">DEKA overig</h3>
+				<table id="deka_overig" class="table table-striped ml-3 table-sm item-hl">
+					<tbody>
+						<tr th:each="shopping : ${deka_overig}">
+							<td hidden=true th:text="${shopping.getId()}"></td>
+							<td
+								th:text="${#strings.replace(shopping.getAmount(),'.0','')}"></td>
+							<td
+								th:text="(${shopping.getAmount() >= 2} ? ${shopping.getMeasureUnit().getPluralDisplayName()}
+										 : ${shopping.getMeasureUnit().getDisplayName()})">
+							</td>
+							<td
+								th:text="(${shopping.getAmount() >= 2} ? ${shopping.getName().pluralName}
+										 : ${shopping.getName().getName()})">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		
+	</section>
+	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
+	<script th:src="@{/js/navigation.js}"></script>
+</body>
+</html>

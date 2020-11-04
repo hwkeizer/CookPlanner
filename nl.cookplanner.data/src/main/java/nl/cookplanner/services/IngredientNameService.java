@@ -1,4 +1,4 @@
-package nl.cookplanner.services.impl;
+package nl.cookplanner.services;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -8,18 +8,16 @@ import org.springframework.stereotype.Service;
 
 import nl.cookplanner.model.IngredientName;
 import nl.cookplanner.repositories.IngredientNameRepository;
-import nl.cookplanner.services.IngredientNameService;
 
 @Service
-public class IngredientNameServiceImpl implements IngredientNameService{
+public class IngredientNameService {
 
 	private final IngredientNameRepository ingredientNameRepository;
 
-	public IngredientNameServiceImpl(IngredientNameRepository ingredientNameRepository) {
+	public IngredientNameService(IngredientNameRepository ingredientNameRepository) {
 		this.ingredientNameRepository = ingredientNameRepository;
 	}
 
-	@Override
 	public Set<IngredientName> findAllIngredientNames() {
 		
 		Set<IngredientName> ingredientNameSet = new HashSet<>();
@@ -27,7 +25,6 @@ public class IngredientNameServiceImpl implements IngredientNameService{
 		return ingredientNameSet;
 	}
 
-	@Override
 	public IngredientName findIngredientNameById(Long id) {
 		Optional<IngredientName> optionalIngredientName = ingredientNameRepository.findById(id);
 		if (optionalIngredientName.isPresent()) {

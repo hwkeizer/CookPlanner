@@ -1,4 +1,4 @@
-package nl.cookplanner.services.impl;
+package nl.cookplanner.services;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -14,34 +14,30 @@ import nl.cookplanner.model.Planning;
 import nl.cookplanner.model.Recipe;
 import nl.cookplanner.model.UpdatePlanDates;
 import nl.cookplanner.repositories.PlanningRepository;
-import nl.cookplanner.services.PlanBoardService;
 
 @Service
 @Slf4j
-public class PlanBoardServiceImpl implements PlanBoardService {
+public class PlanBoardService {
 
 	private final PlanningRepository planningRepository;
 	
-	public PlanBoardServiceImpl(PlanningRepository planningRepository) {
+	public PlanBoardService(PlanningRepository planningRepository) {
 		this.planningRepository = planningRepository;
 	}
 	
-	@Override
 	public Optional<Planning> findById(Long planningId) {
 		return planningRepository.findById(planningId);
 	}
 
 	/**
-	 * Returns the current plannings ordered by date
+	 * Returns the current planningList ordered by date
 	 */
-	@Override
-	public List<Planning> getPlannings() {
+	public List<Planning> getPlanningList() {
 		List<Planning> planningList = planningRepository.findAll();
 		Collections.sort(planningList);
 		return planningList;
 	}
 
-	@Override
 	public void deletePlanningById(Long planningId) {
 		Optional<Planning> optionalPlanning = planningRepository.findById(planningId);
 		if (optionalPlanning.isPresent()) {
@@ -55,24 +51,20 @@ public class PlanBoardServiceImpl implements PlanBoardService {
 			
 		}
 		planningRepository.deleteById(planningId);
-		
 	}
 	
-	@Override
 	public boolean addPlanning(Recipe recipe) {
 		Planning planning = new Planning(getFirstAvailableDate(), recipe, true);
 		planningRepository.save(planning);
 		return true;
 	}
 	
-	@Override
 	public boolean addPlanning() {
 		Planning planning = new Planning(getFirstAvailableDate());
 		planningRepository.save(planning);
 		return true;
 	}
 	
-	@Override
 	public void updatePlanning(Planning planning) {
 		planningRepository.save(planning);
 	}
@@ -97,7 +89,6 @@ public class PlanBoardServiceImpl implements PlanBoardService {
 	/**
 	 * Turn onShoppingList on or off for this planning
 	 */
-	@Override
 	public Planning setOnShoppingList(Long planningId, boolean onShoppingList) {
 		log.debug("PlanningID: {} {}", planningId, onShoppingList);
 		Optional<Planning> optionalPlanning = planningRepository.findById(planningId);
@@ -107,50 +98,6 @@ public class PlanBoardServiceImpl implements PlanBoardService {
 		return planningRepository.save(optionalPlanning.get());
 	}
 
-	// TODO: Test this method thoroughly and check if this code can be improved
-	@Override
-	public List<Ingredient> getShoppingList(boolean stock) {
-		List<Ingredient> ingredients = getShoppingListIngredients(stock);
-		List<Ingredient> result = new ArrayList<>();
-		for (Ingredient ingredient : ingredients) {
-			boolean exists = false; 
-			for (Ingredient resultIngredient : result) {
-				if (ingredient.getName().equals(resultIngredient.getName()) && ingredient.getMeasureUnit().equals(resultIngredient.getMeasureUnit())) {
-					exists = true;
-					if (ingredient.getAmount() != null && resultIngredient.getAmount() != null) {
-						resultIngredient.setAmount(ingredient.getAmount() + resultIngredient.getAmount());
-					}
-				}
-			}
-			if (!exists) {
-				result.add(new Ingredient(ingredient.getName(),
-						ingredient.getAmount(),
-						ingredient.getMeasureUnit()));
-			}
-		}
-		return result;
-	}
-	
-	
-	public List<Ingredient> getShoppingListIngredients(boolean isStock) {
-		List<Ingredient> ingredients = new ArrayList<>();
-		List<Planning> planningList = planningRepository.findAll();
-		for (Planning planning : planningList) {
-			if (planning.isOnShoppingList()) {
-				for (Recipe recipe : planning.getRecipes()) {
-					for (Ingredient ingredient : recipe.getIngredients()) {
-						if (ingredient.getName().isStock() == isStock) {
-							ingredients.add(ingredient);
-						}
-					}
-					
-				}
-			}
-		}
-		return ingredients;
-	}
-
-	@Override
 	public void updateNewPlanDates(List<UpdatePlanDates> newPlanDates) {
 		List<Planning> currentPlanningList = planningRepository.findAll();
 		for (Planning planning : currentPlanningList) {

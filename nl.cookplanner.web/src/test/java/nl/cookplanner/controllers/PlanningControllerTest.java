@@ -29,6 +29,7 @@ import nl.cookplanner.model.RecipeType;
 import nl.cookplanner.model.UpdatePlanDates;
 import nl.cookplanner.services.PlanBoardService;
 import nl.cookplanner.services.RecipeService;
+import nl.cookplanner.services.ShoppingService;
 import nl.cookplanner.util.TestData;
 
 class PlanningControllerTest {
@@ -39,13 +40,16 @@ class PlanningControllerTest {
 	@Mock
 	PlanBoardService planBoardService;
 	
+	@Mock
+	ShoppingService shoppingService;
+	
 	PlanningController planningController;
 	MockMvc mockMvc;
 	
 	@BeforeEach
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		planningController = new PlanningController(recipeService, planBoardService);
+		planningController = new PlanningController(recipeService, planBoardService, shoppingService);
 		mockMvc = MockMvcBuilders.standaloneSetup(planningController)
 				.setControllerAdvice(new ControllerExceptionHandler())
 				.build();
@@ -57,7 +61,7 @@ class PlanningControllerTest {
 		List<Planning> planningList = TestData.getPlanningList();
 		
 		// When
-		when(planBoardService.getPlannings()).thenReturn(planningList);
+		when(planBoardService.getPlanningList()).thenReturn(planningList);
 		
 		// Then
 		mockMvc.perform(get("/planning/overview"))

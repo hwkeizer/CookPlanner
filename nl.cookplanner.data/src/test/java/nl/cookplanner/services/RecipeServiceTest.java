@@ -1,4 +1,4 @@
-package nl.cookplanner.services.impl;
+package nl.cookplanner.services;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
@@ -18,7 +18,7 @@ import nl.cookplanner.services.RecipeService;
 import nl.cookplanner.utilities.TestData;
 
 
-class RecipeServiceImplTest {
+class RecipeServiceTest {
 
 	@Mock
 	RecipeRepository recipeRepository;
@@ -28,7 +28,7 @@ class RecipeServiceImplTest {
 	@BeforeEach
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		recipeService = new RecipeServiceImpl(recipeRepository);
+		recipeService = new RecipeService(recipeRepository);
 	}
 
 	@Test

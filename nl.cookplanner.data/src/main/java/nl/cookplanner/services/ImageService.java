@@ -1,21 +1,18 @@
-package nl.cookplanner.services.impl;
+package nl.cookplanner.services;
 
 import org.springframework.stereotype.Service;
 
 import nl.cookplanner.model.Recipe;
-import nl.cookplanner.services.ImageService;
-import nl.cookplanner.services.RecipeService;
 
 @Service
-public class ImageServiceImpl implements  ImageService {
+public class ImageService {
 	
 	private final RecipeService recipeService;
 
-	public ImageServiceImpl(RecipeService recipeService) {
+	public ImageService(RecipeService recipeService) {
 		this.recipeService = recipeService;
 	}
 
-	@Override
 	public String getCurrentRecipeImage(Long recipeId) {
 		Recipe recipe = recipeService.findRecipeById(recipeId);
 		return recipe.getImage();

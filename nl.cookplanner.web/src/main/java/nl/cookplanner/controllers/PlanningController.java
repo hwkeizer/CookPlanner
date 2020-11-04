@@ -26,6 +26,7 @@ import nl.cookplanner.model.Recipe;
 import nl.cookplanner.model.UpdatePlanDates;
 import nl.cookplanner.services.PlanBoardService;
 import nl.cookplanner.services.RecipeService;
+import nl.cookplanner.services.ShoppingService;
 
 @Controller
 @Slf4j
@@ -33,18 +34,21 @@ public class PlanningController extends AbstractController {
 	
 	private final RecipeService recipeService;
 	private final PlanBoardService planBoardService;
+	private final ShoppingService shoppingService;
 	
-	public PlanningController(RecipeService recipeService, PlanBoardService planBoardService) {
+	public PlanningController(RecipeService recipeService, PlanBoardService planBoardService,
+			ShoppingService shoppingService) {
 		this.recipeService = recipeService;
 		this.planBoardService = planBoardService;
+		this.shoppingService = shoppingService;
 	}
-	
+
 	/**
 	 * Show the planning overview
 	 */
 	@GetMapping("planning/overview")
 	public String showPlanningOverview(Model model) {
-		List<Planning> planningList = planBoardService.getPlannings();
+		List<Planning> planningList = planBoardService.getPlanningList();
 		model.addAttribute("plannings", planningList);
 		return "planning/overview";
 	}
@@ -109,7 +113,7 @@ public class PlanningController extends AbstractController {
 	@PostMapping("planning/newdates")
 	public String updatePlanningWithNewDates(@RequestBody  String planDates, Model model) {
 		planBoardService.updateNewPlanDates(processUpdatePlandates(planDates));
-		List<Planning> planningList = planBoardService.getPlannings();
+		List<Planning> planningList = planBoardService.getPlanningList();
 		model.addAttribute("plannings", planningList);
 		return "redirect:/planning/overview";
 	}
@@ -124,16 +128,6 @@ public class PlanningController extends AbstractController {
 	public String shoppingOn(@PathVariable String planningId) {
 		planBoardService.setOnShoppingList(Long.valueOf(planningId), true);
 		return "redirect:/planning/overview";
-	}
-	
-	@GetMapping("/planning/shopping")
-	public String generateShoppingList(Model model) {
-		List<Ingredient> shoppingList = planBoardService.getShoppingList(false);
-		log.debug("Boodschappenlijst: {}", shoppingList);
-		List<Ingredient> stockList = planBoardService.getShoppingList(true);
-		model.addAttribute("shoppingList", shoppingList);
-		model.addAttribute("stockList", stockList);
-		return "planning/shoppinglist";
 	}
 	
 	List<UpdatePlanDates> processUpdatePlandates(String planDates) {

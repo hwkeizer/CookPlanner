@@ -1,30 +1,48 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="fragments/header.html :: header">
-<title id="pageTitle">Ingrediënt toevoegen</title>
+	<title id="pageTitle">Nieuw standaard artikel toevoegen</title>
 </head>
 <body>
 	<div th:replace="fragments/banner.html :: banner"></div>
 	<div id="wrapper">
 		<div th:replace="fragments/navigation.html :: main-nav"></div>
 		<div id="content-wrapper" class="container mt-3 col-4">
-			<form th:object="${ingredientName}"
-				th:action="@{'/ingredient-name/update'} " method="post">
-				<input type="hidden" th:field="*{id}" />
+			<form th:object="${shoppingItem}"
+					th:action="@{/shopping-item/create-standard-item/}"
+					method="post">
 				<div class="row justify-content-center mb-3">
-					<h1 class="my-5 pageheader panel-title">Voeg
-						ingredi&euml;ntnaam toe</h1>
+					<h1 class="my-5 pageheader panel-title">Nieuw standaard artikel toevoegen</h1>
 				</div>
 				<div class="form-group form-row">
-					<label class="col-3 col-form-label">Naam</label>
+					<label class="col-3 col-form-label">Hoeveelheid</label>
 					<div class="col-9">
-						<input type="text" class="form-control" th:field="*{name}" />
+						<input type="number" step="0.1" class="form-control"
+							th:field="*{amount}" />
 					</div>
 				</div>
 				<div class="form-group form-row">
-					<label class="col-3 col-form-label">Meervoudsnaam</label>
+					<label class="col-3 col-form-label">Maateenheid (enkelvoud)</label>
 					<div class="col-9">
-						<input type="text" class="form-control" th:field="*{pluralName}" />
+						<select class="form-control combobox" name="measureUnit.id">
+							<option></option>
+							<option th:each="muEach : ${measureUnitList}"
+								th:value="${muEach.id}"
+								th:selected="${muEach.id.equals(shoppingItem.measureUnit.id)}"
+								th:text="${muEach.name}">Maateenheid</option>
+						</select>
+					</div>
+				</div>
+				<div class="form-group form-row">
+					<label class="col-3 col-form-label">Naam (enkelvoud)</label>
+					<div class="col-9">
+						<select class="form-control combobox" name="name.id">
+							<option></option>
+							<option th:each="ingredientNameEach : ${ingredientNameList}"
+								th:value="${ingredientNameEach.id}"
+								th:selected="${ingredientNameEach.id.equals(shoppingItem.name.id)}"
+								th:text="${ingredientNameEach.name}">Naam</option>
+						</select>
 					</div>
 				</div>
 				<div class="form-group form-row">
@@ -52,23 +70,20 @@
 						</select>
 					</div>
 				</div>
-				<div class="form-group form-row">
-					<label class="col-3 col-form-label">Op voorraad</label>
-					<div class="col-9">
-						<input class="sized-checkbox" type="checkbox" th:field="*{stock}"
-							th:checked="*{stock}" />
-					</div>
-				</div>
 				<div class="row justify-content-center mb-3">
-					<a class="btn btn-warning mx-3" th:href="@{/ingredient-name/list}">Annuleren</a>
+					<a class="btn btn-warning mx-3" th:href="@{/measure-unit/list}">Annuleren</a>
 					<button type="submit" class="mx-3 btn btn-success">Opslaan</button>
 				</div>
 			</form>
-		</div>
-		<!-- /#content-wrapper -->
-	</div>
-	<!-- /#wrapper -->
+		</div>	<!-- /#content-wrapper -->
+	</div>	<!-- /#wrapper -->
 	<div th:replace="fragments/footer.html :: bootstrap4js"></div>
 	<script th:src="@{/js/navigation.js}"></script>
+	<script th:src="@{/js/bootstrap-combobox.js}"></script>
+	<script type="text/javascript">
+					$(document).ready(function() {
+						$('.combobox').combobox();
+					});
+				</script>
 </body>
 </html>
